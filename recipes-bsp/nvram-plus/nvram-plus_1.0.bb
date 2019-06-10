@@ -5,11 +5,9 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit systemd
 
-
 SRC_URI = "file://nvram-factory.mount.in \
             file://nvram-user.mount \
             file://example_vpd \
-            file://fuse_eth_from_nvram.py \
             file://lock_jtag.py \
 "
 
