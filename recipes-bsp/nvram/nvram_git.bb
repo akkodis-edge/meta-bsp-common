@@ -32,13 +32,13 @@ EXTRA_OEMAKE += "\
 
 do_install () {
     install -d ${D}${sbindir}
-    if [ ${NVRAM_TARGET} == "FILE" ]; then
+    if [ ${NVRAM_TARGET} = "FILE" ]; then
     	install -m 0755 ${S}/nvram_file ${D}${sbindir}/nvram
-    elif [ ${NVRAM_TARGET} == "EFI" ]; then
+    elif [ ${NVRAM_TARGET} = "EFI" ]; then
     	install -m 0755 ${S}/nvram_efi ${D}${sbindir}/nvram
-    elif [ ${NVRAM_TARGET} == "LEGACY" ]; then
+    elif [ ${NVRAM_TARGET} = "LEGACY" ]; then
     	install -m 0755 ${S}/nvram_legacy ${D}${sbindir}/nvram
-    elif [ ${NVRAM_TARGET} == "MTD" ]; then
+    elif [ ${NVRAM_TARGET} = "MTD" ]; then
     	install -m 0755 ${S}/nvram_mtd ${D}${sbindir}/nvram
     fi
 }
