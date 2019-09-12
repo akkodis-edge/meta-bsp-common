@@ -6,11 +6,6 @@
 #
 # Copyright 2014 (C) O.S. Systems Software LTDA.
 
-#
-# This DEPENDS should not be here but in bsp layer
-#
-DEPENDS += "u-boot-factory"
-
 FEATURE_PACKAGES_mtd = "packagegroup-factory-mtd"
 FEATURE_PACKAGES_extfs = "packagegroup-factory-extfs"
 
@@ -22,7 +17,6 @@ DEFAULT_FS_SUPPORT = " \
 
 IMAGE_FEATURES = " \
     ${DEFAULT_FS_SUPPORT} \
-    \
     read-only-rootfs \
 "
 
@@ -32,5 +26,4 @@ CORE_IMAGE_BASE_INSTALL = " \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     udev \
     parted \
-    flash-uboot \
 "
