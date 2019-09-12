@@ -29,7 +29,6 @@ RDEPENDS_${PN}-base = " \
     base-files \
     base-passwd \
     busybox \
-    factory-install \
     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS} \
 "
