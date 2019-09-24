@@ -4,13 +4,19 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit python3-dir
 
-SRC_URI = "file://flash-uboot.py"
+SRCREV ?= "077e68531e4bf32ac36c8808e08b0ee10308daa3"
+SRC_URI = "git://git@bitbucket.datarespons.com:7999/oe-bsp/flash-uboot.git;protocol=ssh;branch=${BRANCH}"
+BRANCH ?= "master"
 
 RDEPENDS_${PN} = "python3 python3-core mtd-utils"
 
-do_install () {
-    install -d ${D}${bindir}
-    install -m 0755 ${WORKDIR}/flash-uboot.py ${D}${bindir}/flash-uboot
+S = "${WORKDIR}/git"
+
+do_compile() {
+	oe_runmake
 }
 
-PACKAGE_ARCH = "${MACHINE_ARCH}"
+do_install () {
+    install -d ${D}${bindir}
+    install -m 0755 ${S}/flash-uboot ${D}${bindir}
+}
