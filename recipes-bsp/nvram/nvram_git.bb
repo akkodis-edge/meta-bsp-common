@@ -7,7 +7,7 @@ NVRAM_TARGET ??= "FILE"
 NVRAM_WP_GPIO ??= ""
 
 SRCREV ?= "aff0214563eab8628237b84ac2a2e180d3b5a307"
-SRC_URI = "${DR_SOURCE_MIRROR}/nvram.git;protocol=ssh;branch=${BRANCH}"
+SRC_URI = "git://git@bitbucket.datarespons.com:7999/oe-bsp/nvram.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
 PV = "1.2+git${SRCPV}"
