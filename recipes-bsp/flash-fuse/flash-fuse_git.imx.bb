@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit python3-dir
 
-SRCREV ?= "c9d0b6add407fac9d8301402ac3a44801b55fd25"
+SRCREV ?= "2edfd1ff7924ae94e1a75875bd22ca2fd021addb"
 SRC_URI = "git://git@bitbucket.datarespons.com:7999/oe-bsp/flash-fuse.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
@@ -17,5 +17,5 @@ do_install () {
     install -m 0755 ${S}/flash-fuse-imx.py ${D}${bindir}/flash-fuse-imx
 }
 
-PACKAGE_ARCH = "${MACHINE}"
+PACKAGE_ARCH = "${MACHINE_ARCH}"
 COMPATIBLE_MACHINE = "(imx)"
