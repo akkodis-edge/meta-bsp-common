@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit python3-dir
 
-SRCREV ?= "d870eae6775f1e710cc8615fbda4a4f3f59674fa"
+SRCREV ?= "c9d0b6add407fac9d8301402ac3a44801b55fd25"
 SRC_URI = "git://git@bitbucket.datarespons.com:7999/oe-bsp/flash-fuse.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
