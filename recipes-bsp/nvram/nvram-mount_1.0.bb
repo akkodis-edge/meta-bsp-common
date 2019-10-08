@@ -11,7 +11,7 @@ SRC_URI = "file://nvram-factory.mount.in \
 
 NVRAM_PLUS_PRODUCTION_MOUNT_OPTIONS = "${@bb.utils.contains('DISTRO_FEATURES', 'harden', 'ro', 'rw', d)}"
 
-RDEPENDS_${PN} = "mmc-utils nvram python3-core"
+RDEPENDS_${PN} = "nvram"
 
 do_install () {
     install -d ${D}${systemd_unitdir}/system
