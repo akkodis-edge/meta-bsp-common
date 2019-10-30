@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 NVRAM_TARGET ??= "FILE"
 NVRAM_WP_GPIO ??= ""
 
-SRCREV ?= "aff0214563eab8628237b84ac2a2e180d3b5a307"
-SRC_URI = "git://git@bitbucket.datarespons.com:7999/oe-bsp/nvram.git;protocol=ssh;branch=${BRANCH}"
+SRCREV ?= "a898835c3513c6017b7294c8b02ee5dbe660eb8e"
 BRANCH ?= "master"
+SRC_URI = "gitsm://git@bitbucket.datarespons.com:7999/oe-bsp/nvram.git;protocol=ssh;branch=${BRANCH}"
 
-PV = "1.2+git${SRCPV}"
+PV = "1.3+git${SRCPV}"
 S = "${WORKDIR}/git"
 
 DEPENDS = " \
@@ -25,7 +25,7 @@ RDEPENDS_${PN} += "\
 
 EXTRA_OEMAKE += "\
 		${@oe.utils.conditional('NVRAM_TARGET','EFI','nvram_efi','',d)} \
-		${@oe.utils.conditional('NVRAM_TARGET','MTD','nvram_mtd VPD_MTD_GPIO=${NVRAM_WP_GPIO}','',d)} \
+		${@oe.utils.conditional('NVRAM_TARGET','MTD','nvram_mtd VPD_MTD_WP=${NVRAM_WP_GPIO}','',d)} \
 		${@oe.utils.conditional('NVRAM_TARGET','FILE','nvram_file','',d)} \
 		${@oe.utils.conditional('NVRAM_TARGET','LEGACY','nvram_legacy','',d)} \
 "
