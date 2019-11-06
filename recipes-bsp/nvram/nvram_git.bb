@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 NVRAM_TARGET ??= "FILE"
 NVRAM_WP_GPIO ??= ""
 
-SRCREV ?= "a898835c3513c6017b7294c8b02ee5dbe660eb8e"
+SRCREV ?= "af0e0028a39e02e10b723eb9c2005fe468ed2ea4"
 BRANCH ?= "master"
 SRC_URI = "gitsm://git@bitbucket.datarespons.com:7999/oe-bsp/nvram.git;protocol=ssh;branch=${BRANCH}"
 
