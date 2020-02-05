@@ -8,7 +8,7 @@ NVRAM_WP_GPIO ??= ""
 
 SRCREV ?= "af0e0028a39e02e10b723eb9c2005fe468ed2ea4"
 BRANCH ?= "master"
-SRC_URI = "gitsm://git@bitbucket.datarespons.com:7999/oe-bsp/nvram.git;protocol=ssh;branch=${BRANCH}"
+SRC_URI = "gitsm://git@github.com/data-respons-solutions/nvram.git;protocol=ssh;branch=${BRANCH}"
 
 PV = "1.3+git${SRCPV}"
 S = "${WORKDIR}/git"
