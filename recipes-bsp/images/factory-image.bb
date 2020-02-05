@@ -22,6 +22,8 @@ IMAGE_FEATURES = " \
 
 inherit core-image
 
+IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
+
 CORE_IMAGE_BASE_INSTALL = " \
     ${CORE_IMAGE_EXTRA_INSTALL} \
     udev \
