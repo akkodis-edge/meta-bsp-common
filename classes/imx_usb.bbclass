@@ -52,7 +52,7 @@ EOF
 		install -m 0644 /dev/null ${IMX_USB_DIR}/mx6_usb_work.conf
 		cat > ${IMX_USB_DIR}/mx6_usb_work.conf << "EOF"
 mx6_qsb
-hid,uboot_header,1024,0x10000000,1G,0x00907000,0x31000
+hid,1024,0x910000,0x10000000,1G,0x00900000,0x40000
 ${IMX_USB_UBOOT}:dcd
 zImage:load ${IMX_USB_ZIMAGE_LOADADDR}
 ${IMX_USB_DTB}:load ${IMX_USB_DTB_LOADADDR}
