@@ -4,11 +4,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit python3-dir
 
-SRCREV ?= "2edfd1ff7924ae94e1a75875bd22ca2fd021addb"
+SRCREV ?= "ddfcf459fd8fee66df64ca87dc3ab7bcbe148fa3"
 SRC_URI = "git://git@github.com/data-respons-solutions/flash-fuse.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
-RDEPENDS_${PN} = "python3 python3-core"
+RDEPENDS_${PN} = "python3-core"
 
 S = "${WORKDIR}/git"
 
