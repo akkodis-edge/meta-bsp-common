@@ -3,46 +3,33 @@ DESCRIPTION = "NVRAM base program"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-NVRAM_TARGET ??= "FILE"
-NVRAM_WP_GPIO ??= ""
+NVRAM_INTERFACE ??= "file"
 
-SRCREV ?= "af0e0028a39e02e10b723eb9c2005fe468ed2ea4"
+SRCREV ?= "78b53f3331813f96000d186fb65c57e743fed335"
 BRANCH ?= "master"
 SRC_URI = "gitsm://git@github.com/data-respons-solutions/nvram.git;protocol=ssh;branch=${BRANCH}"
 
-PV = "1.3+git${SRCPV}"
+PV = "2.0+git${SRCPV}"
 S = "${WORKDIR}/git"
 
 DEPENDS = " \
-		${@oe.utils.conditional('NVRAM_TARGET','EFI','e2fsprogs','',d)} \
-		${@oe.utils.conditional('NVRAM_TARGET','MTD','mtd-utils','',d)} \
+	${@oe.utils.conditional('NVRAM_INTERFACE','efi','e2fsprogs','',d)} \
+	${@oe.utils.conditional('NVRAM_INTERFACE','mtd','mtd-utils','',d)} \
 "
 
 RDEPENDS_${PN} += "\
-		libstdc++ \
-		${@oe.utils.conditional('NVRAM_TARGET','EFI','e2fsprogs','',d)} \
+	${@oe.utils.conditional('NVRAM_INTERFACE','efi','e2fsprogs','',d)} \
 "
 
 EXTRA_OEMAKE += "\
-		${@oe.utils.conditional('NVRAM_TARGET','EFI','nvram_efi','',d)} \
-		${@oe.utils.conditional('NVRAM_TARGET','MTD','nvram_mtd VPD_MTD_WP=${NVRAM_WP_GPIO}','',d)} \
-		${@oe.utils.conditional('NVRAM_TARGET','FILE','nvram_file','',d)} \
-		${@oe.utils.conditional('NVRAM_TARGET','LEGACY','nvram_legacy','',d)} \
+	NVRAM_INTERFACE_TYPE=${NVRAM_INTERFACE} \
 "
 
 do_install () {
-    install -d ${D}${sbindir}
-    if [ ${NVRAM_TARGET} = "FILE" ]; then
-    	install -m 0755 ${S}/nvram_file ${D}${sbindir}/nvram
-    elif [ ${NVRAM_TARGET} = "EFI" ]; then
-    	install -m 0755 ${S}/nvram_efi ${D}${sbindir}/nvram
-    elif [ ${NVRAM_TARGET} = "LEGACY" ]; then
-    	install -m 0755 ${S}/nvram_legacy ${D}${sbindir}/nvram
-    elif [ ${NVRAM_TARGET} = "MTD" ]; then
-    	install -m 0755 ${S}/nvram_mtd ${D}${sbindir}/nvram
-    fi
+    install -d ${D}${bindir}
+    install -m 0755 ${S}/nvram ${D}${bindir}
 }
 
-FILES_${PN} = "${sbindir}/nvram"
+FILES_${PN} = "${bindir}/nvram"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
