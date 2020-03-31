@@ -7,5 +7,4 @@ inherit nativesdk packagegroup
 
 RDEPENDS_${PN} += " \
     nativesdk-imx-usb-loader \
-    nativesdk-utp-com \
 "
