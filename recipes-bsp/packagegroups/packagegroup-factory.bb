@@ -14,9 +14,11 @@ PACKAGES = " \
 # The essential packages for device bootup that may be set in the
 # machine configuration file.
 MACHINE_ESSENTIAL_EXTRA_RDEPENDS ?= ""
+MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
 
 RDEPENDS_${PN} = " \
     udev \
     busybox \
     ${MACHINE_ESSENTIAL_EXTRA_RDEPENDS} \
+    ${MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS} \
 "
