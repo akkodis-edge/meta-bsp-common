@@ -1,10 +1,10 @@
 DESCRIPTION = "Utility to flash boot loader"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
 inherit python3-dir
 
-SRCREV ?= "077e68531e4bf32ac36c8808e08b0ee10308daa3"
+SRCREV ?= "4cea11021c567840cfc0d53f4940d80d603bb4f5"
 SRC_URI = "git://git@github.com/data-respons-solutions/flash-uboot.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
