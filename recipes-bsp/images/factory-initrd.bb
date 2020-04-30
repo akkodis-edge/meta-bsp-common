@@ -3,7 +3,7 @@ DESCRIPTION = "Factory minimal initrd"
 FEATURE_PACKAGES_factory = "packagegroup-factory"
 IMAGE_FEATURES = "factory read-only-rootfs"
 
-inherit core-image
+inherit core-image dr-image-info
 
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 
