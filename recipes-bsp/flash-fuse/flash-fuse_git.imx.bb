@@ -1,10 +1,10 @@
 DESCRIPTION = "Utility to flash IMX fuses"
 LICENSE = "MIT"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
 inherit python3-dir
 
-SRCREV ?= "ddfcf459fd8fee66df64ca87dc3ab7bcbe148fa3"
+SRCREV ?= "2c190b843b0fb0e558492f2299a7d565bbbd5265"
 SRC_URI = "git://git@github.com/data-respons-solutions/flash-fuse.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
