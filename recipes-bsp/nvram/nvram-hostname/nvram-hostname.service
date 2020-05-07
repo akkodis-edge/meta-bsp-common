@@ -1,0 +1,16 @@
+[Unit]
+Description=Set hostname from serial number in nvram
+Requires=local-fs.target
+After=local-fs.target
+Requires=systemd-hostnamed.service
+After=systemd-hostnamed.service
+
+[Service]
+EnvironmentFile=/etc/default/systemname
+Type=oneshot
+ExecStart=/usr/bin/nvram-hostname $SYSTEMNAME
+ExecStartPost=/bin/systemctl disable nvram-hostname.service
+RemainAfterExit=Yes
+
+[Install]
+WantedBy=multi-user.target
