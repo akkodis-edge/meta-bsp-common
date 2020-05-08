@@ -13,4 +13,4 @@ S = "${WORKDIR}/git"
 
 KERNEL_MODULE_AUTOLOAD += "fsl_otp"
 
-COMPATIBLE_MACHINE = "imx"
+COMPATIBLE_MACHINE = "(imx|use-mainline-bsp)"
