@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=801f80980d171dd6425
 
 inherit module
 
-SRCREV ?= "04201ed866c18c27d6bcdd9e8ae24cd8ee24577d"
+SRCREV ?= "eeb954ed5a06016afe7a3409ee5e79b367719965"
 SRC_URI = "git://git@github.com/data-respons-solutions/kernel-module-user-gpios.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
