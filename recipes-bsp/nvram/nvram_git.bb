@@ -26,6 +26,7 @@ def get_interface_cflags(d):
         gpio = d.getVar('NVRAM_MTD_WP')
         if gpio:
             return f'-DNVRAM_WP_GPIO={gpio}'
+    return ''
 
 EXTRA_OEMAKE += "\
 	NVRAM_INTERFACE_TYPE=${NVRAM_INTERFACE} \
