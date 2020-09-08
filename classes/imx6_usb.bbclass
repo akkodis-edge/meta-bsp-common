@@ -1,5 +1,6 @@
 #
 # Generate config files for imx_usb loader
+# IMX_USB_RAW_VID may be space separated list of VID to support. For example "0x0061 0x0054".
 #
 
 do_imx6_usb[vardeps] += " \
@@ -24,10 +25,10 @@ do_imx6_usb() {
 	install -m 0644 /dev/null ${IMX6_USB_DIR}/imx_usb.conf
 	
 	if [ "${SPL_BINARY}" != "" ]; then
-		cat > ${IMX6_USB_DIR}/imx_usb.conf << "EOF"
-#vid:pid, config_file_spl, vid:pid, config_file_uboot
-${IMX6_USB_RAW_VID}:${IMX6_USB_RAW_PID}, mx6_usb_rom.conf, ${IMX6_USB_VID}:${IMX6_USB_PID}, mx6_usb_sdp_spl.conf
-EOF
+		echo "#vid:pid, config_file_spl, vid:pid, config_file_uboot" >> ${IMX6_USB_DIR}/imx_usb.conf
+		for i in ${IMX6_USB_RAW_PID}; do
+			echo "${IMX6_USB_RAW_VID}:${i}, mx6_usb_rom.conf, ${IMX6_USB_VID}:${IMX6_USB_PID}, mx6_usb_sdp_spl.conf" >> ${IMX6_USB_DIR}/imx_usb.conf
+		done
 
 		install -m 0644 /dev/null ${IMX6_USB_DIR}/mx6_usb_rom.conf
 		cat > ${IMX6_USB_DIR}/mx6_usb_rom.conf << "EOF"
@@ -46,10 +47,11 @@ ${IMX6_USB_INITRD}:load ${IMX6_USB_INITRD_LOADADDR}
 ${IMX6_USB_UBOOT}:load,jump header
 EOF
 	else
-		cat > ${IMX6_USB_DIR}/imx_usb.conf << "EOF"
-#vid:pid, config_file_uboot
-${IMX6_USB_RAW_VID}:${IMX6_USB_RAW_PID}, mx6_usb_work.conf
-EOF
+		echo "#vid:pid, config_file_uboot" >> ${IMX6_USB_DIR}/imx_usb.conf
+		for i in ${IMX6_USB_RAW_PID}; do
+			echo "${IMX6_USB_RAW_VID}:${i}, mx6_usb_work.conf" >> ${IMX6_USB_DIR}/imx_usb.conf
+		done
+		
 		install -m 0644 /dev/null ${IMX6_USB_DIR}/mx6_usb_work.conf
 		cat > ${IMX6_USB_DIR}/mx6_usb_work.conf << "EOF"
 mx6_qsb
