@@ -84,7 +84,10 @@ fi
 # COMMAND commit
 if [ "${cmd_commit}" = "true" ]; then
 	if [ "${system_verified}" != "true" ]; then
+		sys_boot_swap="$(nvram --sys get SYS_BOOT_SWAP)" || die "Failed getting nvram variable"
 		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_VERIFIED "true" || die "Failed setting nvram variable"
+		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_PART "${sys_boot_swap}" || die "Failed setting nvram variable"
+		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys delete SYS_BOOT_RETRIES || die "Failed setting nvram variable"
 	fi
 	exit 0
 fi
