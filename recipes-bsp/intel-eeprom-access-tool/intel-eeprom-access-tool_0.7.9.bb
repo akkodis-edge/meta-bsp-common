@@ -11,8 +11,6 @@ do_configure() {
 	sed -i 's/CC=.*/#/' Makefile
 	sed -i 's/CFLAGS=.*/#/' Makefile 
 	sed -i 's/LDFLAGS=.*/#/' Makefile 
-	# Change default from NVM to iNVM
-	sed -i 's/if((1 == Device.NvmPresent) || (1 == Device.NvmPresentX550))/if(0)/' main.c
 }
 
 do_install () {
