@@ -98,7 +98,7 @@ if [ "${cmd_update}" = "true" ]; then
 		die "System already updating"
 	fi
 
-	current_root_label="$(findmnt -no LABEL /)" || die "Failed finding current root partition label"
+	current_root_label="$(findmnt -no PARTLABEL /)" || die "Failed finding current root partition label"
 	case "${current_root_label}" in
 		rootfs1)
 			new_root_label="rootfs2"
@@ -113,8 +113,8 @@ if [ "${cmd_update}" = "true" ]; then
 	echo "Current root: ${current_root_label}"
 	echo "New root: ${new_root_label}"
 	
-	new_root_partition="$(blkid --label ${new_root_label})" || die "Failed getting root partition device"
-	new_root_fstype="$(blkid -s TYPE ${new_root_partition} -o value)" || die "Failed getting root partition fstype"
+	new_root_partition="$(findfs PARTLABEL=${new_root_label})" || die "Failed getting root partition device"
+	new_root_fstype="ext4"
 	echo "Target partition: ${new_root_partition}: type: ${new_root_fstype}"
 	
 	case "${new_root_fstype}" in
