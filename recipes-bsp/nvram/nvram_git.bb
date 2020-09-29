@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
 NVRAM_INTERFACE ??= "file"
 
-SRCREV ?= "a44eb31d96c8ed33b49717a5292c8509dc02f6c0"
+SRCREV ?= "f3b807e162db22ce9860d6c6be64973ba080a1c1"
 BRANCH ?= "master"
 SRC_URI = "gitsm://git@github.com/data-respons-solutions/nvram.git;protocol=ssh;branch=${BRANCH}"
 
