@@ -3,7 +3,7 @@
 DESCRIPTION = "Host factory tools"
 LICENSE = "MIT"
 
-inherit nativesdk packagegroup
+inherit packagegroup nativesdk
 
 RDEPENDS_${PN} += " \
     nativesdk-imx-usb-loader \
