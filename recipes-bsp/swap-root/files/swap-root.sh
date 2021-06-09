@@ -1,11 +1,5 @@
 #!/bin/sh
 
-# 
-# Expects:
-# - Two root partitions, labeled "rootfs1" and "rootfs2"
-# - Bootloader understanding nvram values SYS_BOOT_PART, SYS_BOOT_SWAP and SYS_BOOT_VERIFIED
-#
-
 mountpoint="NONE"
 
 cleanup() {
@@ -27,8 +21,14 @@ print_usage() {
     echo
     echo "Commands:"
     echo " update IMAGE   Write IMAGE to not-used rootfs partition"
-   	echo " state          Return current state. \"OK\" or \"UPDATING\""
-   	echo " commit         Commit change from state \"UPDATING\" to \"OK\""
+   	echo " state          Return current state"
+	echo "                   NORMAL:    Normal boot"
+	echo "                   SWAP_INIT: Swap will be initiated on next boot"
+	echo "                   ROLLBACK:  Rollback has occured"
+	echo "                   FAILED:    Swap failed. State should not be possible in userspace"
+	echo "                   SWAPPING:  Swap in progress"
+   	echo " commit         Commit change from state \"SWAPPING\" to \"NORMAL\""
+	echo " cancel		  Cancel \"SWAP_INIT\""
     echo
     exit 0
 }
@@ -37,6 +37,7 @@ print_usage() {
 cmd_update=""
 cmd_state=""
 cmd_commit=""
+cmd_cancel=""
 image=""
 
 if [ "${#}" -lt "1" ]; then
@@ -63,41 +64,74 @@ case "${1}" in
 		fi
 		cmd_commit="true"
 		;;
+	cancel)
+		if [ "${#}" -ne "1" ]; then
+			print_usage "$(basename ${0})"
+		fi
+		cmd_cancel="true"
+		;;
 	*)
 		print_usage "$(basename ${0})"
 		;;
 esac
 
-# Check if update already in progress
-system_verified="$(nvram --sys get SYS_BOOT_VERIFIED)" || die "Failed reading nvram variable"
+state="UNKNOWN"
+part="$(nvram --sys get SYS_BOOT_PART)" || die "Failed reading nvram variable SYS_BOOT_PART"
+swap="$(nvram --sys get SYS_BOOT_SWAP)" || die "Failed reading nvram variable SYS_BOOT_SWAP"
+if [ "$part" = "$swap" ]; then
+	attempts="$(nvram --sys get SYS_BOOT_ATTEMPTS)"
+	if [ $? -ne 0 ]; then
+		state="NORMAL"
+	else
+		state="ROLLBACK"
+	fi
+else
+	attempts="$(nvram --sys get SYS_BOOT_ATTEMPTS)"
+	if [ $? -ne 0 ]; then
+		state="SWAP_INIT"
+	elif [ "$attempts" -ge 3 ]; then
+		state="FAILED"
+	elif [ "$attempts" -lt 3 ]; then
+		state="SWAPPING"
+	fi
+fi
+
+if [ "$state" = "UNKNOWN" ]; then
+	die "Could not determine state"
+fi
 
 # COMMAND state
-if [ "${cmd_state}" = "true" ]; then
-	if [ "${system_verified}" = "true" ]; then
-		echo "OK"
-	else
-		echo "UPDATING"
-	fi
+if [ "$cmd_state" = "true" ]; then
+	echo "$state"
 	exit 0
 fi
 
 # COMMAND commit
-if [ "${cmd_commit}" = "true" ]; then
-	if [ "${system_verified}" != "true" ]; then
-		sys_boot_swap="$(nvram --sys get SYS_BOOT_SWAP)" || die "Failed getting nvram variable"
-		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_VERIFIED "true" || die "Failed setting nvram variable"
-		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_PART "${sys_boot_swap}" || die "Failed setting nvram variable"
-		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys delete SYS_BOOT_RETRIES || die "Failed setting nvram variable"
+if [ "$cmd_commit" = "true" ]; then
+	if [ "$state" = "SWAPPING" ]; then
+		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_PART "$swap" || die "Failed setting nvram variable SYS_BOOT_PART"
+		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys delete SYS_BOOT_ATTEMPTS || die "Failed deleting nvram variable SYS_BOOT_ATTEMPTS"
+		exit 0
+	else
+		die "Invalid state \""$state"\" for commit"
 	fi
-	exit 0
+fi
+
+# COMMAND cancel
+if [ "$cmd_cancel" = "true" ]; then
+	if [ "$state" = "SWAP_INIT" ]; then
+		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_SWAP "$part" || die "Failed setting nvram variable SYS_BOOT_SWAP"
+		exit 0
+	else
+		die "Invalid state \""$state"\" for cancel"
+	fi
 fi
 
 # COMMAND update
-if [ "${cmd_update}" = "true" ]; then
-	if [ "${system_verified}" != "true" ]; then
-		die "System already updating"
+if [ "$cmd_update" = "true" ]; then
+	if [ "$state" != "NORMAL" ]; then
+		die "Invalid state \""$state"\" for update"
 	fi
-
 	current_root_label="$(findmnt -no PARTLABEL /)" || die "Failed finding current root partition label"
 	case "${current_root_label}" in
 		rootfs1)
@@ -134,14 +168,7 @@ if [ "${cmd_update}" = "true" ]; then
 	cleanup
 	
 	echo "Instructing bootloader"
-	case ${new_root_label} in
-		rootfs1)
-			NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_SWAP 1 || die "Failed setting nvram variable"
-			;;
-		rootfs2)
-			NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_SWAP 2 || die "Failed setting nvram variable"
-			;;
-	esac
+	NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_SWAP "$new_root_label" || die "Failed setting nvram variable SYS_BOOT_SWAP"
 	
 	echo "Image written to new root partition."
 	echo "Reboot to swap"
