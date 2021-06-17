@@ -7,6 +7,9 @@ SRC_URI = "sftp://ftp.datarespons.com/intel_confidential/eepromaccesstool-0-7-9.
 
 S = "${WORKDIR}/eepromaccesstool-0-7-9"
 
+TARGET_LDFLAGS += "-fcommon"
+TARGET_CFLAGS += "-fcommon"
+
 do_configure() {
 	sed -i 's/CC=.*/#/' Makefile
 	sed -i 's/CFLAGS=.*/#/' Makefile 
@@ -15,11 +18,7 @@ do_configure() {
 
 do_install () {
 	install -d ${D}/usr/sbin
-	install -d ${D}/lib/firmware/intel
 	install -m 0755 ${S}/EepromAccessTool ${D}/usr/sbin
-	for f in  ${S}/hex_files/*.HEX; do
-		install -m 0644 ${f} ${D}/lib/firmware/intel
-	done
 }
 
-FILES_${PN} += "/usr/sbin/EepromAccessTool /lib/firmware/intel/*.HEX"
+FILES_${PN} += "/usr/sbin/EepromAccessTool"
