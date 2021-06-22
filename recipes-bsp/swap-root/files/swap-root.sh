@@ -108,7 +108,7 @@ fi
 
 # COMMAND commit
 if [ "$cmd_commit" = "true" ]; then
-	if [ "$state" = "SWAPPING" ]; then
+	if [ "$state" = "SWAPPING" -o "$state" = "ROLLBACK" ]; then
 		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys set SYS_BOOT_PART "$swap" || die "Failed setting nvram variable SYS_BOOT_PART"
 		NVRAM_SYSTEM_UNLOCK=16440 nvram --sys delete SYS_BOOT_ATTEMPTS || die "Failed deleting nvram variable SYS_BOOT_ATTEMPTS"
 		exit 0
