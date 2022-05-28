@@ -9,7 +9,7 @@ SRC_URI += " \
 	file://swap-root.service.in \
 "
 
-RDEPENDS_${PN} += "nvram"
+RDEPENDS:${PN} += "nvram"
 
 do_install () {
     install -d ${D}${sbindir}
@@ -18,4 +18,4 @@ do_install () {
     install -m 0644 ${WORKDIR}/swap-root.service.in ${D}${systemd_system_unitdir}/swap-root.service
 }
 
-SYSTEMD_SERVICE_${PN} += "swap-root.service"
+SYSTEMD_SERVICE:${PN} += "swap-root.service"

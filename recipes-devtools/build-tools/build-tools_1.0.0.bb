@@ -14,5 +14,5 @@ do_install () {
 }
 
 PACKAGES = "${PN}-drs-deploy"
-FILES_${PN}-drs-deploy = "${bindir}/drs-deploy"
-RDEPENDS_${PN}-drs-deploy += "openssh-sftp ncftp"
+FILES:${PN}-drs-deploy = "${bindir}/drs-deploy"
+RDEPENDS:${PN}-drs-deploy += "openssh-sftp ncftp"

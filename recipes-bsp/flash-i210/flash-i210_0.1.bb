@@ -6,7 +6,7 @@ SRC_URI += " \
 	file://flash-i210.sh \
 "
 
-RDEPENDS_${PN} += "intel-eeprom-access-tool"
+RDEPENDS:${PN} += "intel-eeprom-access-tool"
 
 do_install () {
     install -d ${D}${sbindir}

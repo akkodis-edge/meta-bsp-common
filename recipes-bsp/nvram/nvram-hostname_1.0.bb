@@ -13,7 +13,7 @@ SYSTEM_NAME ?= "datarespons"
 inherit systemd
 
 S = "${WORKDIR}"
-RDEPENDS_${PN} = "nvram"
+RDEPENDS:${PN} = "nvram"
 
 do_install () {
     install -d ${D}${bindir}
@@ -26,6 +26,6 @@ do_install () {
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-FILES_${PN} = "${bindir}/* ${sysconfdir}/default/systemname"
+FILES:${PN} = "${bindir}/* ${sysconfdir}/default/systemname"
 SYSTEMD_PACKAGES = "${PN}"
-SYSTEMD_SERVICE_${PN} = "nvram-hostname.service"
+SYSTEMD_SERVICE:${PN} = "nvram-hostname.service"

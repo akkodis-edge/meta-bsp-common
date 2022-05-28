@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "file://blockdev-init.sh"
 
-RDEPENDS_${PN} += "e2fsprogs-mke2fs parted util-linux-wipefs bash"
+RDEPENDS:${PN} += "e2fsprogs-mke2fs parted util-linux-wipefs bash"
 
 S = "${WORKDIR}"
 

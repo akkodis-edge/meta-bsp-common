@@ -13,7 +13,7 @@ SKD_VERSION = "1.0"
 
 TOOLCHAIN_TARGET_TASK = ""
 
-TOOLCHAIN_HOST_TASK_imx += " \
+TOOLCHAIN_HOST_TASK:imx += " \
 	meta-environment-${MACHINE} \
 	nativesdk-packagegroup-factory-imx-host \
 "

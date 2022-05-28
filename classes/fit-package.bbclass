@@ -443,4 +443,4 @@ do_deploy() {
 
 addtask deploy after do_install before do_build
 
-FILES_${PN} += "/boot/*"
+FILES:${PN} += "/boot/*"

@@ -14,7 +14,7 @@ SRC_URI = 	"file://nvram-calibration-helper.sh file://nvram-calibration-export.s
 inherit features_check
 REQUIRED_DISTRO_FEATURES = "wayland"
 
-RDEPENDS_${PN} = "nvram"
+RDEPENDS:${PN} = "nvram"
 
 do_install () {
     install -d ${D}${bindir}

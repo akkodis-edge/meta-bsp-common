@@ -21,4 +21,4 @@ do_install () {
 	install -m 0755 ${S}/EepromAccessTool ${D}/usr/sbin
 }
 
-FILES_${PN} += "/usr/sbin/EepromAccessTool"
+FILES:${PN} += "/usr/sbin/EepromAccessTool"

@@ -8,7 +8,7 @@ IMAGE_INSTALL += "${FACTORY_IMAGE_INSTALL}"
 IMAGE_CONTAINER_NO_DUMMY = "1"
 IMAGE_FSTYPES = "container"
 IMAGE_LINGUAS = ""
-#IMAGE_PREPROCESS_COMMAND_remove = " prelink_setup; prelink_image; mklibs_optimize_image;"
+#IMAGE_PREPROCESS_COMMAND:remove = " prelink_setup; prelink_image; mklibs_optimize_image;"
 
 do_initrd[depends] += " \
 	${INITRD_IMAGE}:do_image_complete \

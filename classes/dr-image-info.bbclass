@@ -1,6 +1,6 @@
 inherit rootfs_${IMAGE_PKGTYPE}
 
-ROOTFS_POSTPROCESS_COMMAND_append = " set_image_info;"
+ROOTFS_POSTPROCESS_COMMAND:append = " set_image_info;"
 DR_BUILD_PLAN ?= "development-build"
 DR_BUILD_NO ?= "none"
 DR_CM_COMMIT ?= "HEAD"

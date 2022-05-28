@@ -5,6 +5,6 @@ LICENSE = "MIT"
 
 inherit packagegroup nativesdk
 
-RDEPENDS_${PN} += " \
+RDEPENDS:${PN} += " \
     nativesdk-imx-usb-loader \
 "

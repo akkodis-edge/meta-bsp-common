@@ -16,7 +16,7 @@ DEPENDS = " \
 	${@oe.utils.conditional('NVRAM_INTERFACE','mtd','mtd-utils','',d)} \
 "
 
-RDEPENDS_${PN} += "\
+RDEPENDS:${PN} += "\
 	${@oe.utils.conditional('NVRAM_INTERFACE','efi','e2fsprogs','',d)} \
 "
 
@@ -38,6 +38,6 @@ do_install () {
     install -m 0755 ${S}/nvram ${D}${bindir}
 }
 
-FILES_${PN} = "${bindir}/nvram"
+FILES:${PN} = "${bindir}/nvram"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"

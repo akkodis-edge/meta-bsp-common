@@ -1,4 +1,4 @@
-ROOTFS_POSTPROCESS_COMMAND_append += " pendrive_automount;"
+ROOTFS_POSTPROCESS_COMMAND:append = " pendrive_automount;"
 
 PENDRIVE_LABEL ??= "TESTDRIVE"
 PENDRIVE_FS ??= "vfat,ext4"

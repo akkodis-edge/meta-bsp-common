@@ -17,4 +17,4 @@ do_install () {
     install -m 0755 ${S}/build/backlightctl ${D}${bindir}
 }
 
-FILES_${PN} = "${bindir}/backlightctl"
+FILES:${PN} = "${bindir}/backlightctl"

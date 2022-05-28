@@ -5,7 +5,7 @@ DESCRIPTION = "Factory minimal initrd"
 inherit extrausers
 EXTRA_USERS_PARAMS = "usermod -p tt9/O6kW840oY root;"
 
-FEATURE_PACKAGES_factory = "packagegroup-factory"
+FEATURE_PACKAGES:factory = "packagegroup-factory"
 IMAGE_FEATURES = "factory empty-root-password"
 
 inherit core-image dr-image-info
@@ -14,7 +14,7 @@ IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 
 CORE_IMAGE_BASE_INSTALL = "${CORE_IMAGE_EXTRA_INSTALL}"
 
-ROOTFS_POSTPROCESS_COMMAND_append = "\
+ROOTFS_POSTPROCESS_COMMAND:append = "\
 						make_dirs; \
 						"
 

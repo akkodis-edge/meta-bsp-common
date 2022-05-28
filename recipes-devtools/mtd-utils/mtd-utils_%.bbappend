@@ -1,6 +1,6 @@
 #FILES_${PN}-staticdev += "ubi-utils/libubi.a ${libdir}/*.a"
 
-do_install_append () {
+do_install:append () {
 	install -d ${D}${includedir}/mtd/
 	install -d ${D}${libdir}/
 	install -m 0644 ${S}/include/libubi.h ${D}${includedir}/mtd/
