@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
 inherit python3-dir
 
-SRCREV ?= "4cea11021c567840cfc0d53f4940d80d603bb4f5"
+SRCREV ?= "2874bdf55315fc93880f3f880491ad8a9e974502"
 SRC_URI = "git://git@github.com/data-respons-solutions/flash-uboot.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
