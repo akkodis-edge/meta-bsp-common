@@ -1,7 +1,6 @@
 [Unit]
 Description=Pendrive mount
 After=local-fs-pre.target
-Before=local-fs.target
 
 [Mount]
 What=/dev/disk/by-partlabel/@PARTLABEL@
