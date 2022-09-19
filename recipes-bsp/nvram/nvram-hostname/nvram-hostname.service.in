@@ -6,9 +6,8 @@ Requires=systemd-hostnamed.service
 After=systemd-hostnamed.service
 
 [Service]
-EnvironmentFile=/etc/default/systemname
 Type=oneshot
-ExecStart=/usr/bin/nvram-hostname $SYSTEMNAME
+ExecStart=/usr/bin/nvram-hostname @NVRAM_HOSTNAME@ @NVRAM_HOSTNAME_VARIABLE@
 ExecStartPost=/bin/systemctl disable nvram-hostname.service
 RemainAfterExit=Yes
 

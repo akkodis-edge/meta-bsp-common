@@ -5,10 +5,11 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = 	" \
     file://nvram-hostname.sh \
-    file://nvram-hostname.service \
+    file://nvram-hostname.service.in \
 "
 
-SYSTEM_NAME ?= "datarespons"
+NVRAM_HOSTNAME ?= "datarespons"
+NVRAM_HOSTNAME_VARIABLE ?= "SYS_SERIALNUMBER"
 
 inherit systemd
 
@@ -18,14 +19,13 @@ RDEPENDS:${PN} = "nvram"
 do_install () {
     install -d ${D}${bindir}
     install -d ${D}${systemd_unitdir}/system
-    install -d ${D}${sysconfdir}/default/
     install -m 0755 ${WORKDIR}/nvram-hostname.sh ${D}${bindir}/nvram-hostname
+    sed -e "s:@NVRAM_HOSTNAME@:${NVRAM_HOSTNAME}:g" \
+    	-e "s:@NVRAM_HOSTNAME_VARIABLE@:${NVRAM_HOSTNAME_VARIABLE}:g" \
+    	${WORKDIR}/nvram-hostname.service.in > ${WORKDIR}/nvram-hostname.service
 	install -m 0644 ${WORKDIR}/nvram-hostname.service ${D}${systemd_unitdir}/system/
-    echo "SYSTEMNAME=${SYSTEM_NAME}" > ${WORKDIR}/systemname
-    install -m 0644 ${WORKDIR}/systemname ${D}${sysconfdir}/default/
 }
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
-FILES:${PN} = "${bindir}/* ${sysconfdir}/default/systemname"
 SYSTEMD_PACKAGES = "${PN}"
 SYSTEMD_SERVICE:${PN} = "nvram-hostname.service"
