@@ -2,7 +2,7 @@ DESCRIPTION = "Utility to flash nvmem fuses"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
-SRCREV ?= "b078c14e0fa9bf7667ec078a0a596291c0f918cd"
+SRCREV ?= "332b07dbe429943831ae19c18fa1293a43070810"
 SRC_URI = "git://git@github.com/data-respons-solutions/flash-fuse.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
