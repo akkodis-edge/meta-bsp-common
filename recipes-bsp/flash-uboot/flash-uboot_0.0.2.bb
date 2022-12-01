@@ -8,7 +8,7 @@ SRCREV ?= "3f82fba8910f401458c0ee149e5cc67885a737a6"
 SRC_URI = "git://git@github.com/data-respons-solutions/flash-uboot.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
-RDEPENDS:${PN} = "python3-core python3-crypt mtd-utils"
+RDEPENDS:${PN} = "python3-core python3-crypt mtd-utils util-linux-blockdev"
 
 S = "${WORKDIR}/git"
 
