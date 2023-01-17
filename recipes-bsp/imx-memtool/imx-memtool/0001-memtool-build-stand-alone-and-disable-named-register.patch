@@ -1,0 +1,79 @@
+From 170b89c5ded99d622c909db52c21657d3a320ede Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Mikko=20Salom=C3=A4ki?= <ms@datarespons.se>
+Date: Tue, 17 Jan 2023 10:15:26 +0100
+Subject: [PATCH] memtool: build stand-alone and disable named registers
+
+Take up huge space and not all SOC supported, access by address supported
+---
+ test/memtool/Makefile  | 12 ++++++++++--
+ test/memtool/memtool.c | 15 ++++++++++++---
+ 2 files changed, 22 insertions(+), 5 deletions(-)
+
+diff --git a/test/memtool/Makefile b/test/memtool/Makefile
+index 3210a29..31896af 100644
+--- a/test/memtool/Makefile
++++ b/test/memtool/Makefile
+@@ -1,5 +1,13 @@
+-BUILD = memtool
+ memtool = memtool.o mx6dl_modules.o mx6q_modules.o mx6sl_modules.o \
+ 	  mx6sx_modules.o mx6ul_modules.o mx7d_modules.o mx6ull_modules.o \
+ 	  mx7ulp_modules.o mx8mq_modules.o
+-CFLAGS = -Os
++CFLAGS += -Os
++
++all: memtool
++
++memtool: memtool.o
++	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
++
++.PHONY: clean
++clean:
++	rm -f memtool
+diff --git a/test/memtool/memtool.c b/test/memtool/memtool.c
+index eabdeaf..3729f34 100644
+--- a/test/memtool/memtool.c
++++ b/test/memtool/memtool.c
+@@ -43,7 +43,7 @@ int g_module_match = 0;
+ 
+ #define MAP_SIZE 0x1000
+ #define KERN_VER(a, b, c) (((a) << 16) + ((b) << 8) + (c))
+-
++/*
+ extern const module_t mx6q[];
+ extern const module_t mx6dl[];
+ extern const module_t mx6sl[];
+@@ -53,7 +53,7 @@ extern const module_t mx7d[];
+ extern const module_t mx6ull[];
+ extern const module_t mx7ulp[];
+ extern const module_t imx8mq7dvajz[];
+-
++*/
+ char g_buffer[4096];
+ 
+ void die(char *p)
+@@ -248,7 +248,16 @@ void write_reg(int addr, int width, int value)
+ 	printf("write 0x%08X to 0x%08X\n", value, addr);
+ 	writem(addr, width, value);
+ }
++void parse_module(char *module, char *reg, char *field, int iswrite)
++{
++	(void) module;
++	(void) reg;
++	(void) field;
++	(void) iswrite;
+ 
++	die("Named modules not supported -- use address");
++}
++#if 0
+ void parse_module(char *module, char *reg, char *field, int iswrite)
+ {
+ 	const module_t *mx = NULL;
+@@ -455,7 +464,7 @@ void parse_module(char *module, char *reg, char *field, int iswrite)
+ 		mx++;
+ 	}
+ }
+-
++#endif
+ int parse_cmdline(int argc, char **argv)
+ {
+ 	int cur_arg = 0;
