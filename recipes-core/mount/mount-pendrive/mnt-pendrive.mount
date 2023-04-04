@@ -1,0 +1,11 @@
+[Unit]
+Description=Pendrive mount
+After=local-fs-pre.target
+
+[Mount]
+What=/dev/disk/by-partlabel/@PARTLABEL@
+Where=/mnt/pendrive
+Options=nofail
+
+[Install]
+WantedBy=local-fs.target
