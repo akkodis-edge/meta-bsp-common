@@ -4,7 +4,7 @@ do_install:append () {
 	install -d ${D}${includedir}/mtd/
 	install -d ${D}${libdir}/
 	install -m 0644 ${S}/include/libubi.h ${D}${includedir}/mtd/
-	install -m 0644 ${S}/include/libmtd.h ${D}${includedir}/mtd/
+	install -m 0644 ${S}/include/libmtd.h ${D}${includedir}/
 	install -m 0644 ${S}/include/mtd/ubi-media.h ${D}${includedir}/mtd/
 	#oe_libinstall -a -C ubi-utils libubi ${D}${libdir}/
 	#oe_libinstall -a -C lib libmtd ${D}${libdir}/
