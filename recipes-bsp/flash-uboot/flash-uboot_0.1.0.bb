@@ -4,8 +4,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
 inherit python3-dir
 
-SRCREV ?= "3f82fba8910f401458c0ee149e5cc67885a737a6"
-SRC_URI = "git://git@github.com/data-respons-solutions/flash-uboot.git;protocol=ssh;branch=${BRANCH}"
+SRCREV ?= "95c6ff50219bcd94af3ce8f92ce2b616bc07a298"
+SRC_URI = "git://git@github.com/data-respons-solutions/flash-uboot.git;protocol=https;branch=${BRANCH}"
 BRANCH ?= "master"
 
 RDEPENDS:${PN} = "python3-core python3-crypt mtd-utils util-linux-blockdev"
