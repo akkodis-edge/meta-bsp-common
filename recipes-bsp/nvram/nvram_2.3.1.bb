@@ -20,9 +20,9 @@ NVRAM_MTD_SYSTEM_A ??= "system_a"
 NVRAM_MTD_SYSTEM_B ??= "system_b"
 NVRAM_MTD_USER_A ??= "user_a"
 NVRAM_MTD_USER_B ??= "user_b"
-NVRAM_EFI_SYSTEM_A ??= "/sys/firmware/efi/efivars/604dafe4-587a-47f6-8604-3d33eb83da3d-system"
+NVRAM_EFI_SYSTEM_A ??= "/sys/firmware/efi/efivars/NvramSystem-604dafe4-587a-47f6-8604-3d33eb83da3d"
 NVRAM_EFI_SYSTEM_B ??= ""
-NVRAM_EFI_USER_A ??= "/sys/firmware/efi/efivars/604dafe4-587a-47f6-8604-3d33eb83da3d-user"
+NVRAM_EFI_USER_A ??= "/sys/firmware/efi/efivars/NvramUser-604dafe4-587a-47f6-8604-3d33eb83da3d"
 NVRAM_EFI_USER_B ??= ""
 
 FILE_FLAGS = " \
