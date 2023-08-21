@@ -3,7 +3,7 @@ DESCRIPTION = "NVRAM base program"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
-SRCREV ?= "e440bd043e777d3e893bf4757598616ebe85a4f2"
+SRCREV ?= "e8628cd76100020878618603bae3f0a5b28176a5"
 BRANCH ?= "master"
 SRC_URI = "gitsm://git@github.com/data-respons-solutions/nvram.git;protocol=https;branch=${BRANCH}"
 
