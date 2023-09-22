@@ -9,7 +9,7 @@ SRC_URI += " \
 	file://swap-root.service.in \
 "
 
-RDEPENDS:${PN} += "nvram"
+RDEPENDS:${PN} += "nvram image-tools bash"
 
 do_install () {
     install -d ${D}${sbindir}
