@@ -8,7 +8,7 @@ SRC_URI = " \
 	file://mnt-pendrive.mount \
 "
 
-PENDRIVE_PARTLABEL ??= "TESTDRIVE"
+PENDRIVE_PARTLABEL ??= "SERVICEUSB"
 
 do_install () {
     install -d ${D}${systemd_unitdir}/system
