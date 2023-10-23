@@ -1,0 +1,11 @@
+[Unit]
+Description=Data partition
+After=local-fs-pre.target
+
+[Mount]
+What=@DATA_DEVICE@
+Where=/data
+Options=nofail
+
+[Install]
+WantedBy=local-fs.target
