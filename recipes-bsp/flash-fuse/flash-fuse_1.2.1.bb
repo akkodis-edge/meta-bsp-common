@@ -15,6 +15,8 @@ do_install () {
     install -m 0755 ${S}/build/flash-fuse-imx8mn ${D}${bindir}
 }
 
+CLEANBROKEN = "1"
+
 PACKAGES += "${PN}-imx8mm ${PN}-imx8mn ${PN}-imx6dl"
 FILES:${PN} = ""
 FILES:${PN}-imx8mm = "${bindir}/flash-fuse-imx8mm"
