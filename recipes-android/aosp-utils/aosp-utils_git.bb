@@ -12,6 +12,8 @@ S = "${WORKDIR}/git"
 
 EXTRA_OEMAKE = "BUILD=${WORKDIR}/build"
 
+CLEANBROKEN = "1"
+
 do_install () {
 	install -d ${D}${bindir}
 	install -m 0755 ${WORKDIR}/build/core/libsparse/simg2img ${D}${bindir}/
