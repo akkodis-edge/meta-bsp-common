@@ -95,6 +95,20 @@ case "${1}" in
 		;;
 esac
 
+current_root_label="$(findmnt -no PARTLABEL /)" || die "Failed finding current root partition label"
+case "${current_root_label}" in
+	rootfs1)
+		new_root_label="rootfs2"
+		;;
+	rootfs2)
+		new_root_label="rootfs1"
+		;;
+	*)
+		# Early abort wanted in case of non-rootfs boot
+		die "Unsupported root partition: ${current_root}"
+		;;
+esac
+
 state="UNKNOWN"
 part="$(nvram --sys --get SYS_BOOT_PART)" || die "Failed reading nvram variable SYS_BOOT_PART"
 swap="$(nvram --sys --get SYS_BOOT_SWAP)" || die "Failed reading nvram variable SYS_BOOT_SWAP"
@@ -162,18 +176,6 @@ if [ "$cmd_update" = "true" ]; then
 	if [ "$state" != "NORMAL" ]; then
 		die "Invalid state \""$state"\" for update"
 	fi
-	current_root_label="$(findmnt -no PARTLABEL /)" || die "Failed finding current root partition label"
-	case "${current_root_label}" in
-		rootfs1)
-			new_root_label="rootfs2"
-			;;
-		rootfs2)
-			new_root_label="rootfs1"
-			;;
-		*)
-			die "Unknown root partition label: ${current_root}"
-			;;
-	esac
 	echo "Current root: ${current_root_label}"
 	echo "New root: ${new_root_label}"
 	# Create partitions and install image
