@@ -12,7 +12,7 @@ PV = "7.0+${SRCPV}"
 SRCBRANCH = "lf-5.15.5_1.0.0"
 SRCREV = "b364c1aacc72a63290106ae065bb2f6a8c365ec6"
 SRC_URI = " \
-	git://source.codeaurora.org/external/imx/imx-test.git;protocol=https;branch=${SRCBRANCH} \
+	git://git@github.com/nxp-imx/imx-test.git;protocol=https;branch=${SRCBRANCH} \
 	file://0001-memtool-build-stand-alone-and-disable-named-register.patch \
 "
 
