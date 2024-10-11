@@ -10,8 +10,19 @@ exit_success() {
 	exit 0
 }
 
+# Parse arguments
+cmd_update=""
+cmd_state=""
+cmd_commit=""
+cmd_cancel=""
+cmd_rollback=""
+cmd_counter=""
+image=""
+type="tar.bz2"
+filesystem="ext4"
+
 print_usage() {
-    echo "Usage: ${1} COMMAND ARGS..."
+    echo "Usage: ${1} [OPTIONS] COMMAND ARGS..."
     echo
     echo "Commands:"
     echo " update IMAGE         Write IMAGE to not-used rootfs partition"
@@ -28,72 +39,67 @@ print_usage() {
 	echo "                         0: controlled by firmware"
 	echo "                         1: has to be manually incremented by caller"
 	echo " counter [VALUE]      Read or write counter. Writing counter not allowed when has-manual-counter is false"
-    echo
-    exit 1
+	echo ""
+    echo "Options:"
+    echo " -t/--type            Type of image (default: ${type})"
+    echo " -f/--filesystem      Type of filesystem (default: ${filesystem})"
+    echo " -h/--help:           This help message"
 }
 
-# Parse arguments
-cmd_update=""
-cmd_state=""
-cmd_commit=""
-cmd_cancel=""
-cmd_rollback=""
-cmd_counter=""
-image=""
-
-if [ "${#}" -lt "1" ]; then
-	print_usage "$(basename ${0})"
-fi
-
-case "${1}" in 
+while [ $# -gt 0 ]; do
+	case $1 in
+	-t|--type)
+		[ $# -gt 1 ] || die "Invalid argument -t/--type"
+		type="$2"
+		shift # past argument
+		shift # past value
+		;;
+	-f|--filesystem)
+		[ $# -gt 1 ] || die "Invalid argument -f/--filesystem"
+		filesystem="$2"
+		shift # past argument
+		shift # past value
+		;;
+	-h|--help)
+		print_usage
+		exit 1
+		;;
 	update)
-		if [ "${#}" -ne "2" ]; then
-			print_usage "$(basename ${0})"
-		fi
+		[ $# -gt 1 ] || die "Invalid arguments for command update"
 		cmd_update="true"
 		image="${2}"
+		shift # past argument
+		shift # past value
 		;;
 	state)
-		if [ "${#}" -ne "1" ]; then
-			print_usage "$(basename ${0})"
-		fi
 		cmd_state="true"
+		shift # past argument
 		;;
 	commit)
-		if [ "${#}" -ne "1" ]; then
-			print_usage "$(basename ${0})"
-		fi
 		cmd_commit="true"
+		shift # past argument
 		;;
 	cancel)
-		if [ "${#}" -ne "1" ]; then
-			print_usage "$(basename ${0})"
-		fi
 		cmd_cancel="true"
+		shift # past argument
 		;;
 	rollback)
-		if [ "${#}" -ne "1" ]; then
-			print_usage "$(basename ${0})"
-		fi
 		cmd_rollback="true"
+		shift # past argument
 		;;
 	has-manual-counter)
-		if [ "${#}" -ne "1" ]; then
-			print_usage "$(basename ${0})"
-		fi
 		echo "no"
 		exit 0
 		;;
 	counter)
-		if [ "${#}" -ne "1" ]; then
-			print_usage "$(basename ${0})"
-		fi
 		cmd_counter="true"
+		shift # past argument
 		;;
 	*)
-		print_usage "$(basename ${0})"
-		;;
-esac
+		die "Invalid argument"
+		;;	
+  esac
+done
 
 current_root_label="$(findmnt -no PARTLABEL /)" || die "Failed finding current root partition label"
 case "${current_root_label}" in
@@ -182,14 +188,14 @@ if [ "$cmd_update" = "true" ]; then
 	read -r -d '' config <<- EOM
 partitions:
    - label: "${new_root_label}"
-     type: ext4
+     type: ${filesystem}
 
 images:
    - name: image
-     type: tar.bz2
+     type: ${type}
      target: "label:${new_root_label}"
 EOM
-	
+
 	args="--force-unmount --config - image=${image}"
 	echo "Partition device and install images.."
 	printf '%s\n' "$config"
