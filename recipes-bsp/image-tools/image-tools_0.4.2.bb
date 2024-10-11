@@ -2,7 +2,7 @@ DESCRIPTION = "Data Respons image tools"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRCREV ?= "daa9e502560bddffd47d4a7477eea3f674ae335f"
+SRCREV ?= "20775ae6b5e03abf3fe2c49357e50ee5f979b94a"
 SRC_URI = "git://git@github.com/data-respons-solutions/image-tools.git;protocol=ssh;branch=${BRANCH}"
 BRANCH ?= "master"
 
