@@ -32,3 +32,4 @@ do_install() {
 
 FILES:${PN}-autocommit = "${systemd_system_unitdir}/swap-root.service"
 SYSTEMD_SERVICE:${PN}-autocommit += "swap-root.service"
+SYSTEMD_PACKAGES += "${PN}-autocommit"
