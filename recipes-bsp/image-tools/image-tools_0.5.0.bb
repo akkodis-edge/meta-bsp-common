@@ -30,7 +30,9 @@ do_install() {
 	install -m 0644 ${S}/swap-root.service.in ${D}${systemd_system_unitdir}/swap-root.service
 }
 
-RDEPENDS:${PN}-swap-root = "${PN}"
+FILES:${PN} = "${sbindir}/image-install ${sbindir}/install-image-container"
+
+RDEPENDS:${PN}-swap-root = "${PN} bash"
 FILES:${PN}-swap-root = "${sbindir}/swap-root"
 
 RDEPENDS:${PN}-autocommit = "${PN}-swap-root"
