@@ -17,7 +17,7 @@ RDEPENDS:${PN} = " \
 	cryptsetup nvram bash \
 "
 
-PACKAGES += "${PN}-autocommit"
+PACKAGES += "${PN}-autocommit ${PN}-swap-root"
 
 do_compile[noexec] = "1"
 
@@ -30,6 +30,10 @@ do_install() {
 	install -m 0644 ${S}/swap-root.service.in ${D}${systemd_system_unitdir}/swap-root.service
 }
 
+RDEPENDS:${PN}-swap-root = "${PN}"
+FILES:${PN}-swap-root = "${sbindir}/swap-root"
+
+RDEPENDS:${PN}-autocommit = "${PN}-swap-root"
 FILES:${PN}-autocommit = "${systemd_system_unitdir}/swap-root.service"
 SYSTEMD_SERVICE:${PN}-autocommit += "swap-root.service"
 SYSTEMD_PACKAGES += "${PN}-autocommit"
