@@ -6,7 +6,7 @@ DEPENDS += "libiio"
 
 SRCREV ?= "7cfb1b7924b6eff29b986860855f7c45ae54dc6a"
 BRANCH ?= "main"
-SRC_URI = "git://git@github.com/data-respons-solutions/backlightctl.git;protocol=ssh;branch=${BRANCH}"
+SRC_URI = "git://git@github.com/data-respons-solutions/backlightctl.git;protocol=https;branch=${BRANCH}"
 
 S = "${WORKDIR}/git"
 

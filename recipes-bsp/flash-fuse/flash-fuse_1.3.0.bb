@@ -3,7 +3,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
 SRCREV ?= "84331d9b46d42e3dc80e6792906f218f9d5fc894"
-SRC_URI = "git://git@github.com/data-respons-solutions/flash-fuse.git;protocol=ssh;branch=${BRANCH}"
+SRC_URI = "git://git@github.com/data-respons-solutions/flash-fuse.git;protocol=https;branch=${BRANCH}"
 BRANCH ?= "master"
 
 S = "${WORKDIR}/git"
