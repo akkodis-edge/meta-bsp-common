@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171d
 inherit module
 
 BRANCH ?= "main"
-SRCREV ?= "a7cbfe52d2d4e6b2d2e1f25df714c76049469fb8"
+SRCREV ?= "43b026ffcd1f4df8e0b6c1a87c2fe01e793e9294"
 SRC_URI = "git://git@github.com/data-respons-solutions/kernel-module-vmcu.git;protocol=https;branch=${BRANCH}"
 
 S = "${WORKDIR}/git"
