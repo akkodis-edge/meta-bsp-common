@@ -2,9 +2,8 @@ DESCRIPTION = "Data Respons image tools"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRCREV ?= "6ff37043c071a127b3df759c3edc43c1a594f07c"
-SRC_URI = "git://git@github.com/data-respons-solutions/image-tools.git;protocol=https;branch=${BRANCH}"
-BRANCH ?= "master"
+SRCREV ?= "b9475fc01ba4daccdd1302413b1f6d4f4fdd0523"
+SRC_URI = "git://git@github.com/data-respons-solutions/image-tools.git;protocol=https;branch=master"
 
 S = "${WORKDIR}/git"
 
@@ -14,7 +13,7 @@ RDEPENDS:${PN} = " \
 	util-linux-wipefs util-linux-mount util-linux-umount \
 	util-linux-blkid parted e2fsprogs-mke2fs tar coreutils \
 	bzip2 aosp-utils python3-pyyaml squashfs-tools openssl-bin \
-	cryptsetup nvram bash \
+	cryptsetup nvram bash bmaptool \
 "
 
 PACKAGES += "${PN}-autocommit ${PN}-swap-root"
