@@ -1,5 +1,5 @@
 From 170b89c5ded99d622c909db52c21657d3a320ede Mon Sep 17 00:00:00 2001
-From: =?UTF-8?q?Mikko=20Salom=C3=A4ki?= <ms@datarespons.se>
+From: =?UTF-8?q?Mikko=20Salom=C3=A4ki?= <ms@akkodis.se>
 Date: Tue, 17 Jan 2023 10:15:26 +0100
 Subject: [PATCH] memtool: build stand-alone and disable named registers
 

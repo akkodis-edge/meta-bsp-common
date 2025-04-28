@@ -5,9 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171d
 
 inherit module
 
-BRANCH ?= "main"
 SRCREV ?= "43b026ffcd1f4df8e0b6c1a87c2fe01e793e9294"
-SRC_URI = "git://git@github.com/data-respons-solutions/kernel-module-vmcu.git;protocol=https;branch=${BRANCH}"
+SRC_URI = "git://git@github.com/akkodis-edge/kernel-module-vmcu.git;protocol=https;branch=main"
 
 S = "${WORKDIR}/git"
 

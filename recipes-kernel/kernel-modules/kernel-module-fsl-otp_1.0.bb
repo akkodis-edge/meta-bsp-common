@@ -6,8 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171d
 inherit module
 
 SRCREV ?= "43420b806c0bccfca1fbbb836d6646d08ca88642"
-SRC_URI = "git://git@github.com/data-respons-solutions/kernel-module-fsl-otp.git;protocol=ssh;branch=${BRANCH}"
-BRANCH ?= "master"
+SRC_URI = "git://git@github.com/akkodis-edge/kernel-module-fsl-otp.git;protocol=ssh;branch=master"
 
 S = "${WORKDIR}/git"
 

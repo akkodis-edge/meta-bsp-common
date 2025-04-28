@@ -1,5 +1,3 @@
-# Copyright (C) 2014 DATA RESPONS AS.
-
 SUMMARY = "Factory install collection"
 LICENSE = "MIT"
 
