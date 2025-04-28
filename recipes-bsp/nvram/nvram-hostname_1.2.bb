@@ -8,7 +8,7 @@ SRC_URI = 	" \
     file://nvram-hostname.service.in \
 "
 
-NVRAM_HOSTNAME ?= "datarespons"
+NVRAM_HOSTNAME ?= "akkodis"
 NVRAM_HOSTNAME_VARIABLE ?= "SYS_SERIALNUMBER"
 
 inherit systemd
