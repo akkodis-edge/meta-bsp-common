@@ -7,7 +7,7 @@ do_compile[depends] += " \
 "
 do_compile[vardeps] +=  "KERNEL_IMAGETYPE INITRD_IMAGE INITRAMFS_FSTYPES APPEND" 
 
-DEPENDS += "virtual/kernel systemd-boot"
+DEPENDS += "virtual/kernel systemd-boot systemd-boot-stub-legacy"
 
 EFI_IMAGE_NAME ?= "${PN}-${MACHINE}.efi"
 
@@ -17,7 +17,7 @@ do_compile() {
     --add-section .cmdline="${WORKDIR}/cmdline.txt" --change-section-vma .cmdline=0x30000 \
     --add-section .linux="${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}" --change-section-vma .linux=0x40000 \
     --add-section .initrd="${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}${IMAGE_NAME_SUFFIX}.${INITRAMFS_FSTYPES}" --change-section-vma .initrd=0x3000000 \
-    ${DEPLOY_DIR_IMAGE}/linux${EFI_ARCH}.efi.stub \
+    ${DEPLOY_DIR_IMAGE}/legacy-linux${EFI_ARCH}.efi.stub \
     ${WORKDIR}/${EFI_IMAGE_NAME}
 }
 
