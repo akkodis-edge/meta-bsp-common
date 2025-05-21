@@ -1,24 +1,25 @@
 require conf/image-uefi.conf
 
-inherit deploy sbsign image-artifact-names
+inherit deploy sbsign image-artifact-names python3native
 
 do_compile[depends] += " \
 	${INITRD_IMAGE}:do_image_complete \
 "
 do_compile[vardeps] +=  "KERNEL_IMAGETYPE INITRD_IMAGE INITRAMFS_FSTYPES APPEND" 
 
-DEPENDS += "virtual/kernel systemd-boot systemd-boot-stub-legacy"
+DEPENDS += "virtual/kernel systemd-boot-native python3-pefile-native"
 
 EFI_IMAGE_NAME ?= "${PN}-${MACHINE}.efi"
 
 do_compile() {
 	echo "${APPEND}" > ${WORKDIR}/cmdline.txt
-	${OBJCOPY} \
-    --add-section .cmdline="${WORKDIR}/cmdline.txt" --change-section-vma .cmdline=0x30000 \
-    --add-section .linux="${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}" --change-section-vma .linux=0x40000 \
-    --add-section .initrd="${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}${IMAGE_NAME_SUFFIX}.${INITRAMFS_FSTYPES}" --change-section-vma .initrd=0x3000000 \
-    ${DEPLOY_DIR_IMAGE}/legacy-linux${EFI_ARCH}.efi.stub \
-    ${WORKDIR}/${EFI_IMAGE_NAME}
+    ukify build \
+        --linux="${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}" \
+        --initrd="${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}${IMAGE_NAME_SUFFIX}.${INITRAMFS_FSTYPES}" \
+        --cmdline="@${WORKDIR}/cmdline.txt" \
+        --efi-arch="${EFI_ARCH}" \
+        --stub="${DEPLOY_DIR_IMAGE}/linux${EFI_ARCH}.efi.stub" \
+        --output="${WORKDIR}/${EFI_IMAGE_NAME}"
 }
 
 SECURE_BOOT_SIGNING_FILES += "${WORKDIR}/${EFI_IMAGE_NAME}"
