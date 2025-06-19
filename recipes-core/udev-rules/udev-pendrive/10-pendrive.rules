@@ -1,0 +1,2 @@
+# SERVICEUSB is preferred label, TESTDRIVE included for legacy system compatibility
+ACTION=="add", SUBSYSTEM=="block", SUBSYSTEMS=="usb", ENV{PARTNAME}=="TESTDRIVE|SERVICEUSB", RUN{program}="/usr/bin/systemd-mount --no-block --options=nofail,ro $env{DEVNAME} /mnt/pendrive"
