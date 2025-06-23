@@ -1,2 +1,8 @@
 # SERVICEUSB is preferred label, TESTDRIVE included for legacy system compatibility
-ACTION=="add", SUBSYSTEM=="block", SUBSYSTEMS=="usb", ENV{PARTNAME}=="TESTDRIVE|SERVICEUSB", RUN{program}="/usr/bin/systemd-mount --no-block --options=nofail,ro $env{DEVNAME} /mnt/pendrive"
+#
+# systemd creates transient units for the mount points and unloads the unit once successfully stopped (unmounted).
+# If there are other units with dependencies to the mount point then the unit is not unloaded when stopped.
+# From that still-loaded but stopped state the unit will not be started again from another call to systemd-mount.
+# To support this scenario a systemctl start command is issued after the first systemd-mount command.
+
+ACTION=="add", SUBSYSTEM=="block", SUBSYSTEMS=="usb", ENV{PARTNAME}=="TESTDRIVE|SERVICEUSB", RUN{program}="/usr/bin/systemd-mount --no-block --options=nofail,ro $env{DEVNAME} /mnt/pendrive", RUN{program}+="/usr/bin/systemctl --no-block start mnt-pendrive.mount"
