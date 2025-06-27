@@ -3,7 +3,7 @@ DESCRIPTION = "NVRAM base program"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=14e5f6d6fc625ef5ece406e9c85a768a"
 
-SRCREV ?= "a5ae2c7e301457d83ba2f0ce988bb92e99f78557"
+SRCREV ?= "293d7ae4acaf998ed485b081bdbdd3f877f113b7"
 SRC_URI = "gitsm://git@github.com/akkodis-edge/nvram.git;protocol=https;branch=master"
 
 S = "${WORKDIR}/git"
