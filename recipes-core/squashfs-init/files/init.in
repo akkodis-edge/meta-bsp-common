@@ -7,10 +7,6 @@ die() {
 
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
-srcmount="/rootfs.dev"
-srcrootimg="${srcmount}/boot/rootfs.squashfs"
-newroot="/rootfs"
-
 # Core setup
 mkdir -p /sys /proc /dev || die "Failed creating core directories"
 mount -t sysfs none /sys || die "Failed mounting /sys"
@@ -19,8 +15,9 @@ mount -t devtmpfs none /dev || die "Failed mounting /dev/"
 modprobe squashfs || die "Failed loading driver squashfs"
 modprobe overlay || die "Failed loading driver overlay"
 
-# Parse kernel cmdline
-cat /proc/cmdline | xargs -n1 | while read -r arg; do
+# Parse kernel cmdline - disable globbing (-f)
+set -f
+for arg in $(cat /proc/cmdline); do
 	case "$arg" in
 	root=*)
 		karg_root="${arg#root=}"
@@ -28,6 +25,7 @@ cat /proc/cmdline | xargs -n1 | while read -r arg; do
 		;;
 	esac
 done
+set +f
 
 # Find root device
 echo "Finding root device"
@@ -53,7 +51,8 @@ elif [ -d /sys/firmware/efi ]; then
 	mount -t efivarfs none /sys/firmware/efi/efivars || die "Failed mounting /sys/firmware/efi/efivars"
 	# Skip 4 first bytes containing efi header and convert utf-16 to utf-8 by dropping all null-characters.
 	# UUID should not contain non-utf-8 characters.
-	espuuid="$(tail -c +5 /sys/firmware/efi/efivars/LoaderDevicePartUUID-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f | tr -d '\000' | awk '{print tolower($0)}')" || die "Failed reading LoaderDevicePartUUID"
+	espuuid="$(tail -c +5 /sys/firmware/efi/efivars/LoaderDevicePartUUID-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f | tr -d '\000' | awk '{print tolower($0)}')" \
+		|| die "Failed reading LoaderDevicePartUUID"
 	blkid_options="--match-token"
 	blkid_match="PARTUUID=$espuuid"
 elif [ "x@FALLBACK_MATCH@" != "x" ]; then
@@ -65,7 +64,7 @@ else
 	die "No supported root device available"
 fi
 
-# Find and mount device
+# Find device
 echo "Waiting for root device: \"$blkid_match\""
 while true; do
 	srcdev=$(blkid $blkid_options "$blkid_match" -o device)
@@ -78,23 +77,36 @@ while true; do
 done
 echo "Found: $srcdev"
 
-mkdir -p "$srcmount" || die "Failed creating mount directories"
-mount -o ro "$srcdev" "$srcmount" || die "Failed mounting $srcdev"
+# Mount device
+mkdir -p /rootfs.dev || die "Failed creating mount directories"
+mount -o ro "$srcdev" /rootfs.dev || die "Failed mounting $srcdev"
 
-# Overlay setup for root
-mkdir -p "$newroot" /rootfs.ro /rootfs.rw || die "Failed creating overlay directories"
-mount -t tmpfs tmpfs /rootfs.rw || die "Failed mounting /rootfs.rw"
-mkdir /rootfs.rw/work /rootfs.rw/upper || die "Failed creating /rootfs.rw directories"
-mount -t squashfs -o ro "$srcrootimg" /rootfs.ro || die "Failed mounting squashfs"
-mount -t overlay overlay -o lowerdir=/rootfs.ro,upperdir=/rootfs.rw/upper,workdir=/rootfs.rw/work "$newroot" \
+# Mount squash
+mkdir -p /rootfs.ro || die "Failed creating squash mountpoint"
+mount -t squashfs -o ro /rootfs.dev/boot/rootfs.squashfs /rootfs.ro || die "Failed mounting squashfs"
+
+# Mount overlay
+mkdir -p /rootfs.rw || die "Failed creating overlay rw directory"
+# By default the upper/workdir are stored in ram (tmpfs).
+# Presence of file /rootfs.dev/boot/rootfs.persistent will move the writeable
+# directory from ram to boot device, making changes persistent.
+if [ -f /rootfs.dev/boot/rootfs.persistent ]; then
+	mount -o remount,rw /rootfs.dev || die "Failed remounting boot device rw"
+	mount --bind /rootfs.dev /rootfs.rw || die "Failed bind mounting rw directory to boot device"
+else
+	mount -t tmpfs tmpfs /rootfs.rw || die "Failed mounting volatile rw area"
+fi
+mkdir -p /rootfs.rw/upper /rootfs.rw/work || die "Failed populating rw directory"
+mkdir -p /rootfs || die "Failed creating overlay target directory"
+mount -t overlay overlay -o lowerdir=/rootfs.ro,upperdir=/rootfs.rw/upper,workdir=/rootfs.rw/work /rootfs \
 	|| die "Failed mounting root overlay"
 
 # Change root
-mkdir -p "${newroot}/rootfs.ro" "${newroot}/rootfs.rw" "${newroot}/rootfs.dev" || die "Failed creating root directories"
-mount --move /rootfs.ro "${newroot}/rootfs.ro" || die "Failed moving rootfs.ro"
-mount --move /rootfs.rw "${newroot}/rootfs.rw" || die "Failed moving rootfs.rw"
-mount --move "$srcmount" "${newroot}/rootfs.dev" || die "Failed moving rootfs.dev"
-cd "$newroot" || die "Failed moving to new rootfs"
+mkdir -p /rootfs /rootfs/rootfs.ro /rootfs/rootfs.rw /rootfs/rootfs.dev || die "Failed creating root directories"
+mount --move /rootfs.ro /rootfs/rootfs.ro || die "Failed moving rootfs.ro"
+mount --move /rootfs.rw /rootfs/rootfs.rw || die "Failed moving rootfs.rw"
+mount --move /rootfs.dev /rootfs/rootfs.dev || die "Failed moving rootfs.dev"
+cd /rootfs || die "Failed moving to new rootfs"
 exec switch_root . /sbin/init "$@" || die "Failed switch_root"
 
 die "Should not be here"
