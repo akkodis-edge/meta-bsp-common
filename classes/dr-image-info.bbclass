@@ -16,3 +16,5 @@ set_image_info () {
     chmod 0444 ${IMAGE_ROOTFS}${sysconfdir}/distro_info
     chmod 0444 ${IMAGE_ROOTFS}${sysconfdir}/image_info
 }
+
+SDK_NAME_PREFIX = "oecore-${DR_CM_COMMIT}"
