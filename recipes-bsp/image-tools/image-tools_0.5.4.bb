@@ -2,7 +2,7 @@ DESCRIPTION = "Akkodis Edge image tools"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRCREV ?= "6e26d581c21d8bbd93ea4faebf2eacec4eaafd17"
+SRCREV ?= "ce5a8ed9d0a086e7b96f3d6b67d34969e06de10e"
 SRC_URI = "git://git@github.com/akkodis-edge/image-tools.git;protocol=https;branch=master"
 
 S = "${WORKDIR}/git"
