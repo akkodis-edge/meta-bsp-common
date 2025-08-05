@@ -92,7 +92,8 @@ mkdir -p /rootfs.rw || die "Failed creating overlay rw directory"
 # directory from ram to boot device, making changes persistent.
 if [ -f /rootfs.dev/boot/rootfs.persistent ]; then
 	mount -o remount,rw /rootfs.dev || die "Failed remounting boot device rw"
-	mount --bind /rootfs.dev /rootfs.rw || die "Failed bind mounting rw directory to boot device"
+	mkdir -p /rootfs.dev/boot/rootfs.rw || die "Failed creating persistent rw area"
+	mount --bind /rootfs.dev/boot/rootfs.rw /rootfs.rw || die "Failed bind mounting rw directory to boot device"
 else
 	mount -t tmpfs tmpfs /rootfs.rw || die "Failed mounting volatile rw area"
 fi
