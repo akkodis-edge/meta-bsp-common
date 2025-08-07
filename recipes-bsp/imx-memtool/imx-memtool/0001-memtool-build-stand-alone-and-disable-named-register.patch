@@ -5,6 +5,7 @@ Subject: [PATCH] memtool: build stand-alone and disable named registers
 
 Take up huge space and not all SOC supported, access by address supported
 ---
+Upstream-Status: Pending
  test/memtool/Makefile  | 12 ++++++++++--
  test/memtool/memtool.c | 15 ++++++++++++---
  2 files changed, 22 insertions(+), 5 deletions(-)
