@@ -3,6 +3,8 @@ From: Lans Zhang <jia.zhang@windriver.com>
 Date: Wed, 16 Aug 2017 22:59:12 +0800
 Subject: [PATCH] Dynamically load openssl.cnf for openssl-1.0.x and 1.1.x
 
+Upstream-Status: Pending
+
 Signed-off-by: Lans Zhang <jia.zhang@windriver.com>
 ---
  Make.rules | 14 ++++++++++++--
