@@ -58,3 +58,6 @@ do_install() {
 RDEPENDS:${PN}:append = " \
     parted mtools coreutils util-linux openssl libcrypto \
 "
+
+# Ignore TMPDIR references in .debug files
+ERROR_QA:remove = "buildpaths"
