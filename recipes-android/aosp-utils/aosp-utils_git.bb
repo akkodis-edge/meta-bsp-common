@@ -9,6 +9,8 @@ DEPENDS = "zlib"
 
 S = "${WORKDIR}/git"
 
+CFLAGS:append = " -Wno-calloc-transposed-args"
+
 EXTRA_OEMAKE = "BUILD=${WORKDIR}/build"
 
 CLEANBROKEN = "1"
