@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 inherit deploy
 
-SRCREV ?= "c036fae29f3c83bc481040b08749dcda39696695"
+SRCREV ?= "43e6a2174de0b1cccebadcdb75086ceb2d0d3e30"
 SRC_URI = "git://git@github.com/akkodis-edge/efi-utils.git;protocol=ssh;branch=main"
 
 DEPENDS += "gnu-efi sbsigntool-native"
