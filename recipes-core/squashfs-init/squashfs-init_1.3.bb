@@ -11,11 +11,15 @@ UNPACKDIR = "${S}"
 FALLBACK_OPTIONS ??= "--match-token"
 FALLBACK_MATCH ??= "PARTLABEL=SERVICEUSB"
 
-do_compile[vardeps] += " FALLBACK_OPTIONS FALLBACK_MATCH"
+# Set rootfs public key validation method
+ROOTFS_PUBLIC_KEY ??= "--pubkey-any"
+
+do_compile[vardeps] += " FALLBACK_OPTIONS FALLBACK_MATCH ROOTFS_PUBLIC_KEY"
 
 do_compile () {
 	sed -e 's,@FALLBACK_MATCH@,${FALLBACK_MATCH},g' \
 		-e 's,@FALLBACK_OPTIONS@,${FALLBACK_OPTIONS},g' \
+		-e 's,@ROOTFS_PUBLIC_KEY@,${ROOTFS_PUBLIC_KEY},g' \
 		${S}/init.in > ${S}/init
 }
 
@@ -26,9 +30,12 @@ do_install () {
 RDEPENDS:${PN} = " \
 	kernel-module-squashfs \
 	kernel-module-overlay \
+	kernel-module-dm-verity \
+	kernel-module-dm-mod \
 	busybox \
 	squashfs-tools \
 	util-linux-blkid \
+	container-util \
 "
 
 FILES:${PN} = "/init"

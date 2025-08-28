@@ -14,6 +14,7 @@ mount -t proc none /proc || die "Failed mounting /proc"
 mount -t devtmpfs none /dev || die "Failed mounting /dev/"
 modprobe squashfs || die "Failed loading driver squashfs"
 modprobe overlay || die "Failed loading driver overlay"
+modprobe dm-verity || die "Failed loading driver dm-verity"
 
 # Parse kernel cmdline - disable globbing (-f)
 set -f
@@ -51,7 +52,7 @@ elif [ -d /sys/firmware/efi ]; then
 	mount -t efivarfs none /sys/firmware/efi/efivars || die "Failed mounting /sys/firmware/efi/efivars"
 	# Skip 4 first bytes containing efi header and convert utf-16 to utf-8 by dropping all null-characters.
 	# UUID should not contain non-utf-8 characters.
-	espuuid="$(tail -c +5 /sys/firmware/efi/efivars/LoaderDevicePartUUID-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f | tr -d '\000' | awk '{print tolower($0)}')" \
+	espuuid="$(cat /sys/firmware/efi/efivars/LoaderDevicePartUUID-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f | tail -c +5 | tr -d '\000' | awk '{print tolower($0)}')" \
 		|| die "Failed reading LoaderDevicePartUUID"
 	blkid_options="--match-token"
 	blkid_match="PARTUUID=$espuuid"
@@ -81,9 +82,12 @@ echo "Found: $srcdev"
 mkdir -p /rootfs.dev || die "Failed creating mount directories"
 mount -o ro "$srcdev" /rootfs.dev || die "Failed mounting $srcdev"
 
+# Enable dm-verity mapping for rootfs integrity
+container-util @ROOTFS_PUBLIC_KEY@ --open rootfs /rootfs.dev/boot/rootfs.squashfs || die "Failed enabling dm-verity"
+
 # Mount squash
 mkdir -p /rootfs.ro || die "Failed creating squash mountpoint"
-mount -t squashfs -o ro /rootfs.dev/boot/rootfs.squashfs /rootfs.ro || die "Failed mounting squashfs"
+mount -t squashfs -o ro /dev/mapper/rootfs /rootfs.ro || die "Failed mounting squashfs"
 
 # Mount overlay
 mkdir -p /rootfs.rw || die "Failed creating overlay rw directory"
