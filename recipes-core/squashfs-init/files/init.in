@@ -83,11 +83,25 @@ mkdir -p /rootfs.dev || die "Failed creating mount directories"
 mount -o ro "$srcdev" /rootfs.dev || die "Failed mounting $srcdev"
 
 # Enable dm-verity mapping for rootfs integrity
-container-util @ROOTFS_PUBLIC_KEY@ --open rootfs /rootfs.dev/boot/rootfs.squashfs || die "Failed enabling dm-verity"
+container-util @ROOTFS_PUBLIC_KEY@ --open rootfs.0 /rootfs.dev/boot/rootfs.squashfs || die "Failed enabling dm-verity"
 
 # Mount squash
-mkdir -p /rootfs.ro || die "Failed creating squash mountpoint"
-mount -t squashfs -o ro /dev/mapper/rootfs /rootfs.ro || die "Failed mounting squashfs"
+mkdir -p /rootfs.0 || die "Failed creating squash mountpoint"
+mount -t squashfs -o ro /dev/mapper/rootfs.0 /rootfs.0 || die "Failed mounting squashfs"
+
+# Overlay an additional read-only squashfs image on top of rootfs if
+# file /rootfs.dev/boot/rootfs.squashfs.1 is available.
+# On error the additional rootfs is silently dropped.
+if [ -f /rootfs.dev/boot/rootfs.squashfs.1 ]; then
+	if container-util @ROOTFS_PUBLIC_KEY@ --open rootfs.1 /rootfs.dev/boot/rootfs.squashfs.1; then
+		mkdir -p /rootfs.1 || die "Failed creating squashfs.1 mountpoint"
+		if mount -t squashfs -o ro /dev/mapper/rootfs.1 /rootfs.1; then
+			lower_extra="/rootfs.1:"
+		else
+			rmdir /rootfs.1 || die "Failed removing squashfs.1 mountpoint"
+		fi
+	fi
+fi
 
 # Mount overlay
 mkdir -p /rootfs.rw || die "Failed creating overlay rw directory"
@@ -103,14 +117,19 @@ else
 fi
 mkdir -p /rootfs.rw/upper /rootfs.rw/work || die "Failed populating rw directory"
 mkdir -p /rootfs || die "Failed creating overlay target directory"
-mount -t overlay overlay -o lowerdir=/rootfs.ro,upperdir=/rootfs.rw/upper,workdir=/rootfs.rw/work /rootfs \
+mount -t overlay overlay -o lowerdir=${lower_extra}/rootfs.0,upperdir=/rootfs.rw/upper,workdir=/rootfs.rw/work /rootfs \
 	|| die "Failed mounting root overlay"
 
 # Change root
-mkdir -p /rootfs /rootfs/rootfs.ro /rootfs/rootfs.rw /rootfs/rootfs.dev || die "Failed creating root directories"
-mount --move /rootfs.ro /rootfs/rootfs.ro || die "Failed moving rootfs.ro"
+mkdir -p /rootfs /rootfs/rootfs.0 /rootfs/rootfs.rw /rootfs/rootfs.dev || die "Failed creating root directories"
+mount --move /rootfs.0 /rootfs/rootfs.0 || die "Failed moving rootfs.0"
 mount --move /rootfs.rw /rootfs/rootfs.rw || die "Failed moving rootfs.rw"
 mount --move /rootfs.dev /rootfs/rootfs.dev || die "Failed moving rootfs.dev"
+if [ -d /rootfs.1 ]; then
+	mkdir -p /rootfs/rootfs.1 || die "Failed creating root directories"
+	mount --move /rootfs.1 /rootfs/rootfs.1 || die "Failed moving rootfs.1"
+fi
+
 cd /rootfs || die "Failed moving to new rootfs"
 exec switch_root . /sbin/init "$@" || die "Failed switch_root"
 
