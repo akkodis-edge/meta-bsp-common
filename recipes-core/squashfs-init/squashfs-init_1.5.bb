@@ -25,17 +25,22 @@ do_compile () {
 
 do_install () {
 	install -m 0755 ${S}/init ${D}
+	install -m 0755 -d ${D}/dev
+	mknod -m 0600 ${D}/dev/console c 5 1
+	install -m 0700 -d ${D}/root
 }
 
 RDEPENDS:${PN} = " \
-	kernel-module-squashfs \
-	kernel-module-overlay \
-	kernel-module-dm-verity \
-	kernel-module-dm-mod \
 	busybox \
 	squashfs-tools \
 	util-linux-blkid \
 	container-util \
 "
+RRECOMMENDS:${PN} = " \
+	kernel-module-squashfs \
+	kernel-module-overlay \
+	kernel-module-dm-verity \
+	kernel-module-dm-mod \
+"
 
-FILES:${PN} = "/init"
+FILES:${PN} = "/init /dev/console /root"
