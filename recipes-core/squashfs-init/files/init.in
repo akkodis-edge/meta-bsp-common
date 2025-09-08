@@ -15,6 +15,7 @@ mount -t devtmpfs none /dev || die "Failed mounting /dev/"
 modprobe squashfs || die "Failed loading driver squashfs"
 modprobe overlay || die "Failed loading driver overlay"
 modprobe dm-verity || die "Failed loading driver dm-verity"
+modprobe dm-crypt || die "Failed loading driver dm-crypt"
 
 # Parse kernel cmdline - disable globbing (-f)
 set -f
@@ -103,18 +104,20 @@ if [ -f /rootfs.dev/boot/rootfs.squashfs.1 ]; then
 	fi
 fi
 
-# Mount overlay
-mkdir -p /rootfs.rw || die "Failed creating overlay rw directory"
 # By default the upper/workdir are stored in ram (tmpfs).
 # Presence of file /rootfs.dev/boot/rootfs.persistent will move the writeable
 # directory from ram to boot device, making changes persistent.
-if [ -f /rootfs.dev/boot/rootfs.persistent ]; then
-	mount -o remount,rw /rootfs.dev || die "Failed remounting boot device rw"
-	mkdir -p /rootfs.dev/boot/rootfs.rw || die "Failed creating persistent rw area"
-	mount --bind /rootfs.dev/boot/rootfs.rw /rootfs.rw || die "Failed bind mounting rw directory to boot device"
-else
+mkdir -p /rootfs.rw || die "Failed creating overlay rw directory"
+echo "Attempting persistent root type: $(rootfsctl --type)"
+# link kernel keyring, see issue here:
+# https://github.com/systemd/systemd/issues/5522
+keyctl link @u @us || echo "Failed linking kernel keyring"
+if ! rootfsctl --open; then
+	echo "No persistent root -- mount volatile"
 	mount -t tmpfs tmpfs /rootfs.rw || die "Failed mounting volatile rw area"
 fi
+
+# Mount overlay
 mkdir -p /rootfs.rw/upper /rootfs.rw/work || die "Failed populating rw directory"
 mkdir -p /rootfs || die "Failed creating overlay target directory"
 mount -t overlay overlay -o lowerdir=${lower_extra}/rootfs.0,upperdir=/rootfs.rw/upper,workdir=/rootfs.rw/work /rootfs \

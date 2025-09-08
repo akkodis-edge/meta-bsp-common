@@ -35,12 +35,14 @@ RDEPENDS:${PN} = " \
 	squashfs-tools \
 	util-linux-blkid \
 	container-util \
+	rootfsctl \
 "
 RRECOMMENDS:${PN} = " \
 	kernel-module-squashfs \
 	kernel-module-overlay \
 	kernel-module-dm-verity \
 	kernel-module-dm-mod \
+	kernel-module-dm-crypt \
 "
 
 FILES:${PN} = "/init /dev/console /root"
