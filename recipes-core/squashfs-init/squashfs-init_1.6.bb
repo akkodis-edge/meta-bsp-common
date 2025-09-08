@@ -13,8 +13,10 @@ FALLBACK_MATCH ??= "PARTLABEL=SERVICEUSB"
 
 # Set rootfs public key validation method
 ROOTFS_PUBLIC_KEY ??= "--pubkey-any"
+# Allow adding key recipes
+ROOTFS_PUBLIC_KEY_RDEPENDS ??= ""
 
-do_compile[vardeps] += " FALLBACK_OPTIONS FALLBACK_MATCH ROOTFS_PUBLIC_KEY"
+do_compile[vardeps] += " FALLBACK_OPTIONS FALLBACK_MATCH ROOTFS_PUBLIC_KEY ROOTFS_PUBLIC_KEY_RDEPENDS"
 
 do_compile () {
 	sed -e 's,@FALLBACK_MATCH@,${FALLBACK_MATCH},g' \
@@ -36,6 +38,7 @@ RDEPENDS:${PN} = " \
 	util-linux-blkid \
 	container-util \
 	rootfsctl \
+	${ROOTFS_PUBLIC_KEY_RDEPENDS} \
 "
 RRECOMMENDS:${PN} = " \
 	kernel-module-squashfs \
