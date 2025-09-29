@@ -8,6 +8,8 @@ UNPACKDIR = "${S}"
 
 # Set rootfs upperdir as directory on root device without encryption
 ROOTFS_PERSISTENT_TYPE ??= "directory"
+# keyctl trusted key arguments used by type "plain"
+ROOTFS_PERSISTENT_PLAIN ??= "new 32"
 
 do_compile[vardeps] += "ROOTFS_PERSISTENT_TYPE"
 
@@ -16,6 +18,7 @@ do_compile () {
 	${CC} ${CFLAGS} -Wall -Wextra -Werror -pedantic ${LDFLAGS} ${S}/getsectors.c -o ${S}/getsectors
 
 	sed -e 's,@ROOTFS_PERSISTENT_TYPE@,${ROOTFS_PERSISTENT_TYPE},g' \
+		-e 's,@ROOTFS_PERSISTENT_PLAIN@,${ROOTFS_PERSISTENT_PLAIN},g' \
 		${S}/rootfsctl.sh > ${S}/rootfsctl
 }
 

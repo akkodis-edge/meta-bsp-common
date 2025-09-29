@@ -197,7 +197,7 @@ elif [ "$arg_cmd" = "enable" ]; then
 			# $arg_keep is ignored here as encryption key is lost when disabling
 			[ "x$arg_size" = "x" ] && die $EINVAL "Missing mandatory argument --size"
 			truncate -s "${arg_size}M" "$persist_data" || die $EFAULT "Failed creating persistent data"
-			key_id="$(keyctl add trusted rootcrypt "new 32" @s)" || die $EFAULT "Failed creating keyring key"
+			key_id="$(keyctl add trusted rootcrypt "@ROOTFS_PERSISTENT_PLAIN@" @s)" || die $EFAULT "Failed creating keyring key"
 			TRUSTED="rootcrypt"
 			dev="$(losetup -f --show "$persist_data")" || die $EFAULT "Failed loopmounting data"
 			LOOPDEV="$dev"
