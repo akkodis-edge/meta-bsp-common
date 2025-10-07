@@ -39,6 +39,9 @@ RDEPENDS:${PN} = " \
 	container-util \
 	rootfsctl \
 	${ROOTFS_PUBLIC_KEY_RDEPENDS} \
+	util-linux-fsck \
+	e2fsprogs-e2fsck \
+	dosfstools \
 "
 RRECOMMENDS:${PN} = " \
 	kernel-module-squashfs \

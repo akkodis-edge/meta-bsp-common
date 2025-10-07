@@ -79,6 +79,9 @@ while true; do
 done
 echo "Found: $srcdev"
 
+# Run filecheck
+fsck -fy "$srcdev" || echo "fsck failed"
+
 # Mount device
 mkdir -p /rootfs.dev || die "Failed creating mount directories"
 mount -o ro "$srcdev" /rootfs.dev || die "Failed mounting $srcdev"
