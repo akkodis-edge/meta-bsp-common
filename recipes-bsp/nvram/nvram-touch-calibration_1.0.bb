@@ -3,8 +3,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 SRC_URI = 	"file://nvram-calibration-helper.sh file://nvram-calibration-export.sh"
-S = "${WORKDIR}/sources"
-UNPACKDIR = "${S}"
+S = "${UNPACKDIR}"
 
 # Currently only wayland/weston supported
 # Note weston.ini [libinput] section needs:

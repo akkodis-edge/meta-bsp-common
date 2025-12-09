@@ -22,8 +22,6 @@ SRC_URI = "\
 
 COMPATIBLE_HOST = '(i.86|x86_64).*-linux'
 
-S = "${WORKDIR}/git"
-
 EXTRA_OEMAKE = "\
     NM='${NM}' AR='${AR}' \
     EXTRA_LDFLAGS='${LDFLAGS}' \

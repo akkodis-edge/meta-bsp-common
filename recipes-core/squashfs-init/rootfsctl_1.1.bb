@@ -3,8 +3,7 @@ LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
 SRC_URI = "file://rootfsctl.sh file://getsectors.c"
-S = "${WORKDIR}/sources"
-UNPACKDIR = "${S}"
+S = "${UNPACKDIR}"
 
 # Set rootfs upperdir as directory on root device without encryption
 ROOTFS_PERSISTENT_TYPE ??= "directory"

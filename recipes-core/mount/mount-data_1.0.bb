@@ -7,8 +7,7 @@ inherit systemd
 DATA_DEVICE_PATH ??= "/dev/disk/by-partlabel/data"
 
 SRC_URI = "file://data.mount.in"
-S = "${WORKDIR}/sources"
-UNPACKDIR = "${S}"
+S = "${UNPACKDIR}"
 
 do_install () {
 	install -d ${D}${systemd_unitdir}/system

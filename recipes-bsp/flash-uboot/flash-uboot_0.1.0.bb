@@ -9,8 +9,6 @@ SRC_URI = "git://git@github.com/akkodis-edge/flash-uboot.git;protocol=https;bran
 
 RDEPENDS:${PN} = "python3-core python3-crypt mtd-utils util-linux-blockdev"
 
-S = "${WORKDIR}/git"
-
 do_compile() {
 	oe_runmake
 }

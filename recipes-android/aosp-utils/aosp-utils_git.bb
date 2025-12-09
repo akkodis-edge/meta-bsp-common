@@ -7,8 +7,6 @@ SRC_URI = "gitsm://git@github.com/akkodis-edge/aosp-utils.git;protocol=https;bra
 
 DEPENDS = "zlib"
 
-S = "${WORKDIR}/git"
-
 CFLAGS:append = " -Wno-calloc-transposed-args"
 
 EXTRA_OEMAKE = "BUILD=${WORKDIR}/build"

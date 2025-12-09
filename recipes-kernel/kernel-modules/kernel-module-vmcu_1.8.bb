@@ -8,8 +8,6 @@ inherit module
 SRCREV ?= "43b026ffcd1f4df8e0b6c1a87c2fe01e793e9294"
 SRC_URI = "git://git@github.com/akkodis-edge/kernel-module-vmcu.git;protocol=https;branch=main"
 
-S = "${WORKDIR}/git"
-
 do_install:append() {
 	install -d ${D}${bindir}
 	install -m 0755 ${S}/flash-vmcu.sh ${D}${bindir}/flash-vmcu

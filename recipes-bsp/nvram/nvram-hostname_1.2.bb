@@ -7,8 +7,7 @@ SRC_URI = 	" \
 	file://nvram-hostname.sh \
 	file://nvram-hostname.service.in \
 "
-S = "${WORKDIR}/sources"
-UNPACKDIR = "${S}"
+S = "${UNPACKDIR}"
 
 NVRAM_HOSTNAME ?= "akkodis"
 NVRAM_HOSTNAME_VARIABLE ?= "SYS_SERIALNUMBER"

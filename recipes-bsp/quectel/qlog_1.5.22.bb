@@ -6,5 +6,3 @@ inherit  cmake
 
 SRCREV ?= "a17bc3ad94a7b253de62ce88e5efa66ebb40f52a"
 SRC_URI = "git://git@github.com/akkodis-edge/qlog-mirror.git;protocol=ssh;branch=v1.5.22"
-
-S = "${WORKDIR}/git"

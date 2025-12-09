@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Proprietary;md5=0557f9d92cf58f2
 SRC_URI[sha256sum] = "3f8982b2e05854f2943e434577aa920e079709bc6edac337346754ab2524ad6d"
 SRC_URI = "sftp://ftp.akkodis.no/intel_confidential/eepromaccesstool-0-7-9.zip"
 
-S = "${WORKDIR}/eepromaccesstool-0-7-9"
+S = "${UNPACKDIR}/eepromaccesstool-0-7-9"
 
 TARGET_LDFLAGS += "-fcommon"
 TARGET_CFLAGS += "-fcommon"

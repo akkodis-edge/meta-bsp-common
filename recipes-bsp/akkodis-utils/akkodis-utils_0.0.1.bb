@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a51e1b434b80ddca042429bbbc5264d9"
 SRCREV ?= "983fc17e1c9584e90f3e31aebd8e81cad652c44e"
 SRC_URI = "git://git@github.com/akkodis-edge/akkodis-utils.git;protocol=https;branch=main"
 
-S = "${WORKDIR}/git"
-
 RDEPENDS:${PN} = "python3-core python3-pyserial"
 
 EXTRA_OECONF = " \

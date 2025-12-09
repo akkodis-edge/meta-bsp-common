@@ -10,8 +10,6 @@ SRCREV ?= "49fa59e82e4c6ea798f65fc4e5948eae63ad6e07"
 
 COMPATIBLE_HOST = '(i.86|x86_64)'
 
-S = "${WORKDIR}/git"
-
 inherit deploy sbsign systemd_boot_entry
 
 addtask systemd_boot_entry after do_compile before do_install

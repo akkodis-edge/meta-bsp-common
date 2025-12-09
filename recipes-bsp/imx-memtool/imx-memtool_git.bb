@@ -16,8 +16,6 @@ SRC_URI = " \
 	file://0001-memtool-build-stand-alone-and-disable-named-register.patch \
 "
 
-S = "${WORKDIR}/git"
-
 do_compile() {
 	make -C ${S}/test/memtool clean
 	make -C ${S}/test/memtool

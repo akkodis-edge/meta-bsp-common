@@ -9,8 +9,6 @@ SRC_URI = "git://git@github.com/akkodis-edge/efi-utils.git;protocol=ssh;branch=m
 
 DEPENDS += "gnu-efi sbsigntool-native"
 
-S = "${WORKDIR}/git"
-
 EXTRA_OEMAKE = " \
 	SYSROOT=${STAGING_DIR_TARGET} \
 	USE_SBSIGN=1 \
