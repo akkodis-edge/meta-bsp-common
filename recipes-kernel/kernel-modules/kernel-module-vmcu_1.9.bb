@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-only;md5=801f80980d171d
 
 inherit module
 
-SRCREV ?= "43b026ffcd1f4df8e0b6c1a87c2fe01e793e9294"
+SRCREV ?= "5cb2147f1cc7030137aa62a7d8c938c298564e1e"
 SRC_URI = "git://git@github.com/akkodis-edge/kernel-module-vmcu.git;protocol=https;branch=main"
 
 do_install:append() {
