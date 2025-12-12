@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Proprietary;md5=0557f9d92cf58f2
 
 inherit  cmake
 
-SRCREV ?= "a17bc3ad94a7b253de62ce88e5efa66ebb40f52a"
+SRCREV ?= "647a07cfce643d1bb100ba4a0d4c2e65502564c9"
 SRC_URI = "git://git@github.com/akkodis-edge/qlog-mirror.git;protocol=ssh;branch=v1.5.22"
