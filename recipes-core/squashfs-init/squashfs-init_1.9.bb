@@ -41,6 +41,7 @@ RDEPENDS:${PN} = " \
 	util-linux-fsck \
 	e2fsprogs-e2fsck \
 	dosfstools \
+	kmod \
 "
 RRECOMMENDS:${PN} = " \
 	kernel-module-squashfs \
