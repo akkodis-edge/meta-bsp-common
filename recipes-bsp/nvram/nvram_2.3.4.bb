@@ -41,6 +41,10 @@ EFI_FLAGS = " \
 	NVRAM_EFI_USER_B=${NVRAM_EFI_USER_B} \
 "
 
+# Allow native builds to compile with default PACKAGECONFIG
+NVRAM_INTERFACE_DEFAULT:class-native = "file"
+NVRAM_FORMAT_DEFAULT:class-native = "v2"
+
 PACKAGECONFIG ??= "interface_file format_v2"
 PACKAGECONFIG[interface_file] = "NVRAM_INTERFACE_FILE=1 ${FILE_FLAGS},NVRAM_INTERFACE_FILE=0,,"
 PACKAGECONFIG[interface_mtd] = "NVRAM_INTERFACE_MTD=1 ${MTD_FLAGS},NVRAM_INTERFACE_MTD=0,mtd-utils,"
@@ -64,3 +68,5 @@ do_install () {
 FILES:${PN} = "${bindir}/nvram"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+BBCLASSEXTEND = "native nativesdk"
