@@ -2,7 +2,7 @@ LICENSE = "MIT"
 
 IMAGE_FEATURES = ""
 IMAGE_LINGUAS = ""
-IMAGE_INSTALL = "squashfs-init"
+PACKAGE_INSTALL = "squashfs-init udev"
 IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
 # Remove .rootfs suffix
 IMAGE_NAME_SUFFIX = ""
