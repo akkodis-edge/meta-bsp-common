@@ -33,9 +33,8 @@ do_install () {
 
 RDEPENDS:${PN} = " \
 	busybox \
-	squashfs-tools \
 	util-linux-blkid \
-	container-util \
+	image-tools \
 	rootfsctl \
 	${ROOTFS_PUBLIC_KEY_RDEPENDS} \
 	util-linux-fsck \
