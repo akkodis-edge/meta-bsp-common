@@ -7,6 +7,10 @@ SRC_URI = "git://git@github.com/akkodis-edge/akkodis-utils.git;protocol=https;br
 
 RDEPENDS:${PN} = "python3-core python3-pyserial"
 
+# When building without static libs the --disable-static flag is passed to EXTRA_OECONF.
+# Flag is not supported, disable here.
+DISABLE_STATIC = ""
+
 EXTRA_OECONF = " \
 	BUILD=${WORKDIR}/build \
 	DESTDIR=${D} \
