@@ -4,5 +4,5 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Proprietary;md5=0557f9d92cf58f2
 
 inherit  cmake
 
-SRCREV ?= "bf11e24951cd41f7d7627e5f2c8f6688b2bab86f"
+SRCREV ?= "d4a41863f2ec621b0fc73bcf7a2aa9428f746836"
 SRC_URI = "git://git@github.com/akkodis-edge/qfirehose-mirror.git;protocol=ssh;branch=v1.4.17"
