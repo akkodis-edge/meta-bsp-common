@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=26ba640c983c054d7af59178266970cf \
 
 DEPENDS = "cryptsetup openssl"
 
-SRCREV ?= "1a37d654313203e881a7d14c73543d37b9265f4f"
+SRCREV ?= "19090e64159f271e518d452b7023a9798f0d576c"
 SRC_URI = "git://git@github.com/akkodis-edge/image-tools.git;protocol=https;branch=master"
 
 # When building without static libs the --disable-static flag is passed to EXTRA_OECONF.
