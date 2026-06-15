@@ -14,7 +14,7 @@ NVRAM_HOSTNAME_VARIABLE ?= "SYS_SERIALNUMBER"
 
 inherit systemd
 
-RDEPENDS:${PN} = "nvram"
+RDEPENDS:${PN} = "nvram-check"
 
 do_install () {
 	install -d ${D}${bindir}

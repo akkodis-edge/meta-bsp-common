@@ -1,9 +1,7 @@
 [Unit]
 Description=Set hostname from serial number in nvram
-Requires=local-fs.target
-After=local-fs.target
-Requires=systemd-hostnamed.service
-After=systemd-hostnamed.service
+Requires=systemd-hostnamed.service nvram-check.service
+After=systemd-hostnamed.service nvram-check.service
 
 [Service]
 Type=oneshot
