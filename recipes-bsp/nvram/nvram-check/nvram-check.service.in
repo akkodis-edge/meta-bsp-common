@@ -2,15 +2,11 @@
 Description=Check if nvram is online
 Requires=local-fs.target
 After=local-fs.target
-StartLimitIntervalSec=0
 
 [Service]
-StandardOutput=null
 Type=oneshot
-ExecStart=@BINDIR@/nvram
+ExecStart=@BINDIR@/nvram-check
 RemainAfterExit=Yes
-Restart=on-failure
-RestartSec=5
 
 [Install]
 WantedBy=multi-user.target

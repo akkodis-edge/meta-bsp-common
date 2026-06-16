@@ -2,7 +2,10 @@ DESCRIPTION = "Service for delaying units which depend on nvram"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = "file://nvram-check.service.in"
+SRC_URI = " \
+	file://nvram-check.service.in \
+	file://nvram-check.sh \
+"
 S = "${UNPACKDIR}"
 
 inherit systemd
@@ -17,6 +20,8 @@ do_compile() {
 do_install () {
 	install -d ${D}${systemd_unitdir}/system
 	install -m 0644 ${B}/nvram-check.service ${D}${systemd_unitdir}/system/
+	install -d ${D}${bindir}
+	install -m 0755 ${UNPACKDIR}/nvram-check.sh ${D}${bindir}/nvram-check
 }
 
 SYSTEMD_PACKAGES = "${PN}"
