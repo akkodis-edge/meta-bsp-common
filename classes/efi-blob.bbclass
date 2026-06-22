@@ -22,7 +22,7 @@ do_compile() {
         --output="${WORKDIR}/${EFI_IMAGE_NAME}"
 }
 
-SECURE_BOOT_SIGNING_FILES += "${WORKDIR}/${EFI_IMAGE_NAME}"
+SECURE_BOOT_SIGNING_FILE = "${WORKDIR}/${EFI_IMAGE_NAME}"
 addtask do_sbsign after do_compile before do_install
 
 do_install() {
