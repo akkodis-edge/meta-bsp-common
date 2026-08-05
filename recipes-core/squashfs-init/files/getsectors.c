@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 #include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
@@ -73,13 +74,13 @@ int main(int argc, char* argv[])
 		goto exit;
 	}
 
-	size_t size_bytes = 0;
+	uint64_t size_bytes = 0;
 	if (ioctl(fd, BLKGETSIZE64, &size_bytes) != 0) {
 		r = errno;
 		fprintf(stderr, "Failed ioctl BLKGETSIZE64 [%d]: %s\n", r, strerror(r));
 		goto exit;
 	}
-	printf("%zu\n", size_bytes / sector_size);
+	printf("%" PRIu64 "\n", size_bytes / sector_size);
 
 	r = 0;
 exit:
