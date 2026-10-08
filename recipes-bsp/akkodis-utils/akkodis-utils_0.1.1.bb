@@ -2,12 +2,10 @@ DESCRIPTION = "Akkodis Edge utilities"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=a51e1b434b80ddca042429bbbc5264d9"
 
-SRCREV ?= "ba3213162f18d2f1b9317a1a7dadf61eb7897c16"
+SRCREV ?= "66715cf771215dfee46fd61b848cb65a71360d39"
 SRC_URI = "git://git@github.com/akkodis-edge/akkodis-utils.git;protocol=https;branch=main"
 
-RDEPENDS:${PN} = "python3-core python3-pyserial"
-
-inherit systemd
+inherit systemd python3-dir
 
 # When building without static libs the --disable-static flag is passed to EXTRA_OECONF.
 # Flag is not supported, disable here.
@@ -21,14 +19,16 @@ EXTRA_OECONF = " \
 	sysconfdir=${sysconfdir} \
 	systemd_system_unitdir=${systemd_system_unitdir} \
 	includedir=${includedir} \
+	python3_sitepackages_dir=${PYTHON_SITEPACKAGES_DIR} \
 	USE_CLANG_TIDY=0 \
 "
 
-PACKAGECONFIG ?= "owld owl"
-
+PACKAGECONFIG ?= "libowl owld owl atcli"
 PACKAGECONFIG[sanitizer] = "USE_SANITIZER=1,USE_SANITIZER=0,gcc-sanitizers"
-PACKAGECONFIG[owld] = "WITH_OWLD=1,WITH_OWLD=0,sqlite3 cyaml libiio"
-PACKAGECONFIG[owl] = "WITH_OWL=1,WITH_OWL=0,sqlite3,python3-core"
+PACKAGECONFIG[libowl] = "WITH_LIBOWL=1,WITH_LIBOWL=0,sqlite3"
+PACKAGECONFIG[owld] = "WITH_OWLD=1,WITH_OWLD=0,cyaml libiio"
+PACKAGECONFIG[owl] = "WITH_OWL=1,WITH_OWL=0,,python3-core python3-rich gnuplot"
+PACKAGECONFIG[atcli] = "WITH_ATCLI=1,WITH_ATCLI=0,,python3-core python3-pyserial"
 
 do_compile() {
 	oe_runmake ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS}
@@ -38,7 +38,9 @@ do_install() {
 	oe_runmake ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS} install
 }
 
-# cyaml parser includes buildpaths in codedp
+FILES:${PN} += "${PYTHON_SITEPACKAGES_DIR}/*"
+
+# cyaml parser includes buildpaths in generated code
 ERROR_QA:remove = "buildpaths"
 
 SYSTEMD_PACKAGES = "${PN}"
