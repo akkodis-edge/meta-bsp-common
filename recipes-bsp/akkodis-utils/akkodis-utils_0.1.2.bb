@@ -2,7 +2,7 @@ DESCRIPTION = "Akkodis Edge utilities"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=a51e1b434b80ddca042429bbbc5264d9"
 
-SRCREV ?= "66715cf771215dfee46fd61b848cb65a71360d39"
+SRCREV ?= "7545a30fb7f1e65e934b713ac20ffd1ff5d0432c"
 SRC_URI = "git://git@github.com/akkodis-edge/akkodis-utils.git;protocol=https;branch=main"
 
 inherit systemd python3-dir
