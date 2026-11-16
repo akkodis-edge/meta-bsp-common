@@ -87,7 +87,7 @@ mkdir -p /rootfs.dev || die "Failed creating mount directories"
 mount -o ro "$srcdev" /rootfs.dev || die "Failed mounting $srcdev"
 
 # Enable dm-verity mapping for rootfs integrity
-roothash_0="$(container-util @ROOTFS_PUBLIC_KEY@ --open rootfs.0 /rootfs.dev/boot/rootfs.squashfs)" || die "Failed enabling dm-verity"
+roothash_0="$(container-util --quiet @ROOTFS_PUBLIC_KEY@ --open rootfs.0 /rootfs.dev/boot/rootfs.squashfs)" || die "Failed enabling dm-verity"
 
 # Mount squash
 mkdir -p /rootfs.0 || die "Failed creating squash mountpoint"
@@ -97,7 +97,7 @@ mount -t squashfs -o ro /dev/mapper/rootfs.0 /rootfs.0 || die "Failed mounting s
 # file /rootfs.dev/boot/rootfs.squashfs.1 is available.
 # On error the additional rootfs is silently dropped.
 if [ -f /rootfs.dev/boot/rootfs.squashfs.1 ]; then
-	roothash_1="$(container-util @ROOTFS_PUBLIC_KEY@ --open rootfs.1 /rootfs.dev/boot/rootfs.squashfs.1)"
+	roothash_1="$(container-util --quiet @ROOTFS_PUBLIC_KEY@ --open rootfs.1 /rootfs.dev/boot/rootfs.squashfs.1)"
 	if [ $? -eq 0 ]; then
 		echo "Found squashfs.1"
 		mkdir -p /rootfs.1 || die "Failed creating squashfs.1 mountpoint"
